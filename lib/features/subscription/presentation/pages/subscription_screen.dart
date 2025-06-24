@@ -1,4 +1,5 @@
 import 'package:catering_1/features/subscription/presentation/data/subscription_data.dart';
+import 'package:catering_1/features/subscription/presentation/manager/subscription_form_manager.dart';
 import 'package:catering_1/features/subscription/presentation/widgets/section/form/form_biodata_subscription_section.dart.dart';
 import 'package:catering_1/features/subscription/presentation/widgets/section/header/header_subscription_section.dart';
 import 'package:flutter/material.dart';
@@ -18,20 +19,13 @@ class SubscriptionScreen extends StatefulWidget {
 }
 
 class _SubscriptionScreenState extends State<SubscriptionScreen> {
+  final _formManager = SubscriptionFormManager();
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _nameCtrl = TextEditingController();
-  final TextEditingController _phoneCtrl = TextEditingController();
-  final TextEditingController _allergyCtrl = TextEditingController();
 
-  String? _selectedPlan;
-  final List<String> _mealTypes = [];
-  final List<String> _deliveryDays = [];
-
-  double get totalPrice {
-    if (_selectedPlan == null || _mealTypes.isEmpty || _deliveryDays.isEmpty)
-      return 0;
-    final planPrice = plans[_selectedPlan]!;
-    return planPrice * _mealTypes.length * _deliveryDays.length * 4.3;
+  @override
+  void dispose() {
+    _formManager.dispose();
+    super.dispose();
   }
 
   @override
@@ -58,31 +52,31 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               const HeaderSubscriptionSection(),
               const SizedBox(height: 24),
               FormBiodataSubscriptionSection(
-                nameCtrl: _nameCtrl,
-                phoneCtrl: _phoneCtrl,
+                nameCtrl: _formManager.nameController,
+                phoneCtrl: _formManager.phoneController,
               ),
               const SizedBox(height: 24),
               FormPlanSubscriptionSection(
-                selectedPlan: _selectedPlan,
+                selectedPlan: _formManager.selectedPlan,
                 plans: plans,
-                onChanged: (val) => setState(() => _selectedPlan = val),
+                onChanged: (val) => setState(() => _formManager.selectedPlan = val),
               ),
               const SizedBox(height: 24),
               FormMealSubscriptionSection(
-                mealTypes: _mealTypes,
+                mealTypes: _formManager.mealTypes,
                 mealOptions: mealOptions,
-                onAdd: (m) => setState(() => _mealTypes.add(m)),
-                onRemove: (m) => setState(() => _mealTypes.remove(m)),
+                onAdd: (m) => setState(() => _formManager.mealTypes.add(m)),
+                onRemove: (m) => setState(() => _formManager.mealTypes.remove(m)),
               ),
               const SizedBox(height: 24),
               FormDeliverySubscriptionSection(
-                deliveryDays: _deliveryDays,
+                deliveryDays: _formManager.deliveryDays,
                 days: days,
-                onAdd: (d) => setState(() => _deliveryDays.add(d)),
-                onRemove: (d) => setState(() => _deliveryDays.remove(d)),
+                onAdd: (d) => setState(() => _formManager.deliveryDays.add(d)),
+                onRemove: (d) => setState(() => _formManager.deliveryDays.remove(d)),
               ),
               const SizedBox(height: 16),
-              FormAlergySubscriptionSection(allergyCtrl: _allergyCtrl),
+              FormAlergySubscriptionSection(allergyCtrl: _formManager.allergyController),
               const SizedBox(height: 28),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -96,7 +90,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                     ),
                   ),
                   Text(
-                    'Rp${totalPrice.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]}.')},00',
+                    'Rp${_formManager.totalPrice.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]}.')},00',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -114,55 +108,16 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
-                onPressed: () async {
-  if (_formKey.currentState!.validate() &&
-      _mealTypes.isNotEmpty &&
-      _deliveryDays.isNotEmpty) {
-    final provider = Provider.of<SubscriptionProvider>(context, listen: false);
-    await provider.save(
-      name: _nameCtrl.text,
-      phone: _phoneCtrl.text,
-      allergy: _allergyCtrl.text.isEmpty ? null : _allergyCtrl.text,
-      plan: _selectedPlan!,
-      mealTypes: List<String>.from(_mealTypes),
-      deliveryDays: List<String>.from(_deliveryDays),
-      totalPrice: totalPrice,
-    );
-
-    if (provider.message != null && provider.message!.contains("success")) {
-      showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          backgroundColor: AppColors.white['default'],
-          title: Text(
-            'Subscription Submitted',
-            style: TextStyle(
-              color: AppColors.brand['default'],
-            ),
-          ),
-          content: Text(
-            'Thank you, ${_nameCtrl.text}! Your subscription has been received.',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(
-                'OK',
-                style: TextStyle(
-                  color: AppColors.brand['default'],
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    } else if (provider.message != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(provider.message!)),
-      );
-    }
-  }
-},
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate() &&
+                        _formManager.isValid) {
+                      final provider = Provider.of<SubscriptionProvider>(
+                        context,
+                        listen: false,
+                      );
+                      await provider.save(_formManager.toEntity());
+                    }
+                  },
                   child: const Text('Submit', style: TextStyle(fontSize: 16)),
                 ),
               ),
