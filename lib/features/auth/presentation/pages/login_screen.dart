@@ -1,22 +1,20 @@
 import 'package:catering_1/core/shared/button/button_shared.dart';
 import 'package:catering_1/core/shared/modal/modal_alert.dart';
-import 'package:catering_1/features/auth/domain/entities/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/colors/app_colors.dart';
 import '../manager/auth_form_manager.dart';
 import '../../../../core/shared/input/input_text_shared.dart';
-import 'package:catering_1/features/auth/presentation/provider/auth_provider.dart'
-    as my_auth;
+import 'package:catering_1/features/auth/presentation/provider/auth_provider.dart' as my_auth;
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _formManager = AuthFormManager();
   bool _isLoading = false;
@@ -31,15 +29,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (_formKey.currentState?.validate() ?? false) {
       setState(() => _isLoading = true);
 
-      final authProvider = Provider.of<my_auth.AuthProvider>(
-        context,
-        listen: false,
-      );
-      await authProvider.register(
-        Auth(
-          email: _formManager.emailController.text.trim(),
-          name: _formManager.nameController.text.trim(),
-        ),
+      final authProvider = Provider.of<my_auth.AuthProvider>(context, listen: false);
+      await authProvider.login(
+        _formManager.emailController.text.trim(),
         _formManager.passwordController.text.trim(),
       );
 
@@ -47,22 +39,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       if (authProvider.message?.contains("berhasil") == true) {
         showModalAlert(
-          // ignore: use_build_context_synchronously
           context: context,
-          title: "Registrasi Berhasil",
-          content: "Akun kamu berhasil dibuat!",
+          title: "Login Berhasil",
+          content: "Selamat datang kembali!",
           buttonText: "OK",
           status: "success",
           onClose: () {
             Navigator.of(context).pop();
-            Navigator.pushReplacementNamed(context, '/login');
+            Navigator.pushReplacementNamed(context, '/main');
           },
         );
       } else if (authProvider.message != null) {
         showModalAlert(
-          // ignore: use_build_context_synchronously
           context: context,
-          title: "Registrasi Gagal",
+          title: "Login Gagal",
           content: authProvider.message!,
           buttonText: "OK",
           status: "failed",
@@ -95,13 +85,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
-                      Icons.restaurant_menu,
+                      Icons.lock_open,
                       size: 64,
                       color: AppColors.brand['default'],
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'Daftar Akun',
+                      'Masuk',
                       style: TextStyle(
                         fontSize: 26,
                         fontWeight: FontWeight.bold,
@@ -110,51 +100,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     const SizedBox(height: 24),
                     InputTextShared(
-                      controller: _formManager.nameController,
-                      label: 'Nama Lengkap',
-                      icon: Icons.person,
-                      validator:
-                          (v) =>
-                              v == null || v.isEmpty
-                                  ? 'Nama wajib diisi'
-                                  : null,
-                    ),
-                    const SizedBox(height: 16),
-                    InputTextShared(
                       controller: _formManager.emailController,
                       label: 'Email',
                       icon: Icons.email,
                       keyboardType: TextInputType.emailAddress,
-                      validator:
-                          (v) =>
-                              v == null || !v.contains('@')
-                                  ? 'Email tidak valid'
-                                  : null,
+                      validator: (v) =>
+                          v == null || !v.contains('@') ? 'Email tidak valid' : null,
                     ),
                     const SizedBox(height: 16),
                     InputTextShared(
                       controller: _formManager.passwordController,
                       label: 'Password',
                       icon: Icons.lock,
-                      validator:
-                          (v) =>
-                              v == null || v.length < 6
-                                  ? 'Minimal 6 karakter'
-                                  : null,
+                      validator: (v) =>
+                          v == null || v.length < 6 ? 'Minimal 6 karakter' : null,
                     ),
                     const SizedBox(height: 28),
                     ButtonShared(
                       onPressed: _isLoading ? null : _submit,
-                      text: 'Daftar',
+                      text: 'Masuk',
                       isLoading: _isLoading,
                     ),
                     const SizedBox(height: 12),
                     TextButton(
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        Navigator.of(context).pushReplacementNamed('/register');
                       },
                       child: Text(
-                        'Sudah punya akun? Masuk',
+                        'Belum punya akun? Daftar',
                         style: TextStyle(color: AppColors.brand['accent']),
                       ),
                     ),

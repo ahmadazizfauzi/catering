@@ -20,4 +20,23 @@ class AuthRemoteDatasource {
       'name': authModel.name,
     });
   }
+
+  Future<AuthModel> login(String email, String password) async {
+    // Login ke Firebase Auth
+    UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+
+    // Ambil data user dari Firestore
+    final doc = await _userCollection.doc(userCredential.user!.uid).get();
+    final data = doc.data() as Map<String, dynamic>?;
+
+    return AuthModel(
+      id: userCredential.user!.uid,
+      email: email,
+      name: data?['name'] ?? '',
+      token: await userCredential.user?.getIdToken(),
+    );
+  }
 }

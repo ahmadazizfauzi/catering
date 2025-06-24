@@ -5,5 +5,6 @@ abstract class AppRoutes {
 
   // Login
   static const String register = '/register';
+  static const String login = '/login';
 
 }

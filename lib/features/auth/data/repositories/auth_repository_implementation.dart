@@ -13,4 +13,10 @@ class AuthRepositoryImplementation implements AuthRepository {
     final model = AuthModel.fromEntity(auth);
     return remoteDatasource.register(model, password);
   }
+
+  @override
+  Future<Auth> login(String email, String password) async {
+    final model = await remoteDatasource.login(email, password);
+    return model.toEntity();
+  }
 }
