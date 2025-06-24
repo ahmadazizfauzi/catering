@@ -18,4 +18,10 @@ class AppColors {
   static const Map<String, Color> white = {
     'default': Color(0xFFFFFFFF), 
   };
+
+  static const Map<String, Color> status = {
+    'success': Color(0xFF43A047), // Hijau sukses (Green 600)
+    'failed': Color(0xFFE53935),  // Merah gagal (Red 600)
+    'warning': Color(0xFFFFB300), // Kuning warning (Amber 600)
+  };
 }

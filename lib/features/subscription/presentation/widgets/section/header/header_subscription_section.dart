@@ -14,6 +14,7 @@ class HeaderSubscriptionSection extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
+            // ignore: deprecated_member_use
             color: AppColors.brand['default']!.withOpacity(0.07),
             blurRadius: 8,
             offset: const Offset(0, 2),

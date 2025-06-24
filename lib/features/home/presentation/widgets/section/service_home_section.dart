@@ -49,6 +49,7 @@ class FeatureItem extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
+              // ignore: deprecated_member_use
               color: AppColors.brand['default']!.withOpacity(0.1),
               borderRadius: BorderRadius.circular(8),
             ),

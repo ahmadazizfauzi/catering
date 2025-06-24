@@ -1,6 +1,9 @@
 import 'package:catering_1/core/colors/app_colors.dart';
-import 'package:catering_1/core/navigation/main_container.dart';
 import 'package:catering_1/core/routes/app_pages.dart';
+import 'package:catering_1/features/auth/data/datasources/auth_remote_datasource.dart';
+import 'package:catering_1/features/auth/data/repositories/auth_repository_implementation.dart';
+import 'package:catering_1/features/auth/domain/usecases/register_usecase.dart';
+import 'package:catering_1/features/auth/presentation/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +29,15 @@ void main() async {
             ),
           ),
         ),
-        // Tambahkan provider lain di sini jika perlu
+         ChangeNotifierProvider(
+          create: (_) => AuthProvider(
+            RegisterUsecase(
+              AuthRepositoryImplementation(
+                AuthRemoteDatasource(),
+              ),
+            ),
+          ),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -38,7 +49,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+   return MaterialApp(
       title: 'Bougas App',
       theme: ThemeData(
         fontFamily: 'Poppins', 
@@ -55,12 +66,13 @@ class MyApp extends StatelessWidget {
         ),
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.deepPurple,
+          // ignore: deprecated_member_use
           background: AppColors.white['default'],
           surface: AppColors.white['default'],
         ),
         useMaterial3: true,
       ),
-      home: const MainContainer(),
+      initialRoute: AppPages.initial,
       debugShowCheckedModeBanner: false,
       routes: AppPages.routes,
     );

@@ -60,6 +60,7 @@ class FormMealSubscriptionSection extends StatelessWidget {
                   boxShadow: selected
                       ? [
                           BoxShadow(
+                            // ignore: deprecated_member_use
                             color: AppColors.brand['default']!.withOpacity(0.10),
                             blurRadius: 8,
                             offset: const Offset(0, 2),

@@ -12,8 +12,9 @@ class SubscriptionFormManager {
   final List<String> deliveryDays = [];
 
   double get totalPrice {
-    if (selectedPlan == null || mealTypes.isEmpty || deliveryDays.isEmpty)
+    if (selectedPlan == null || mealTypes.isEmpty || deliveryDays.isEmpty) {
       return 0;
+    }
     // Ganti dengan cara ambil harga plan sesuai kebutuhanmu
     final planPrice =
         plans[selectedPlan]!;

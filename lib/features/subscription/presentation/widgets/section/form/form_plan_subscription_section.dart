@@ -46,6 +46,7 @@ class FormPlanSubscriptionSection extends StatelessWidget {
                   boxShadow: isSelected
                       ? [
                           BoxShadow(
+                            // ignore: deprecated_member_use
                             color: AppColors.brand['default']!.withOpacity(0.12),
                             blurRadius: 8,
                             offset: const Offset(0, 2),

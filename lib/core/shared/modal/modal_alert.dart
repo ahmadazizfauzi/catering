@@ -30,6 +30,7 @@ class ModalAlert extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             CircleAvatar(
+              // ignore: deprecated_member_use
               backgroundColor: (iconColor ?? modalGreen).withOpacity(0.1),
               radius: 32,
               child: Icon(
@@ -61,7 +62,7 @@ class ModalAlert extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: modalGreen,
+                  backgroundColor: iconColor ?? modalGreen,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -78,4 +79,37 @@ class ModalAlert extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> showModalAlert({
+  required BuildContext context,
+  required String title,
+  required String content,
+  String buttonText = 'OK',
+  VoidCallback? onClose,
+  IconData? icon,
+  Color? iconColor,
+  String status = "success",
+  bool barrierDismissible = false,
+}) {
+  final color = iconColor ?? AppColors.status[status] ?? AppColors.status['success'];
+  final defaultIcon = icon ??
+      (status == "success"
+          ? Icons.check_circle
+          : status == "failed"
+              ? Icons.error
+              : Icons.warning);
+
+  return showDialog(
+    context: context,
+    barrierDismissible: barrierDismissible,
+    builder: (context) => ModalAlert(
+      title: title,
+      content: content,
+      buttonText: buttonText,
+      onClose: onClose,
+      icon: defaultIcon,
+      iconColor: color,
+    ),
+  );
 }
