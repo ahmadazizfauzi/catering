@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:catering_1/core/colors/app_colors.dart';
 
-class FormAboutSection extends StatefulWidget {
+class FormTestimonialSection extends StatefulWidget {
   final void Function(String name, String message, int rating)? onSubmit;
-  const FormAboutSection({super.key, this.onSubmit});
+  const FormTestimonialSection({super.key, this.onSubmit});
 
   @override
-  State<FormAboutSection> createState() => _FormAboutSectionState();
+  State<FormTestimonialSection> createState() => FormTestimonialSectionState();
 }
 
-class _FormAboutSectionState extends State<FormAboutSection> {
+class FormTestimonialSectionState extends State<FormTestimonialSection> {
   final _formKey = GlobalKey<FormState>();
   String _name = '';
   String _message = '';

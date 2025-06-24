@@ -1,4 +1,6 @@
 import 'package:catering_1/core/navigation/main_container.dart';
+import 'package:catering_1/features/about/presentation/pages/testimonial_screen.dart';
+import 'package:catering_1/features/about/presentation/widgets/section/testimonial_section.dart';
 import 'package:catering_1/features/auth/presentation/pages/login_screen.dart';
 import 'package:catering_1/features/auth/presentation/pages/register_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,5 +20,6 @@ class AppPages {
     AppRoutes.main: (context) => MainContainer(),
     AppRoutes.register: (context) => RegisterScreen(),
     AppRoutes.login: (context) => LoginScreen(),
+    AppRoutes.testimonial: (context) => TestimonialScreen(),
   };
 }

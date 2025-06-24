@@ -6,11 +6,7 @@ class BottomBar extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
 
-  const BottomBar({
-    super.key,
-    required this.currentIndex,
-    required this.onTap,
-  });
+  const BottomBar({super.key, required this.currentIndex, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +18,9 @@ class BottomBar extends StatelessWidget {
       items: const [
         TabItem(icon: Icons.home, title: 'Beranda'),
         TabItem(icon: Icons.restaurant_menu, title: 'Menu'),
-        TabItem(icon: Icons.info_outline, title: 'Subscription'),
-        // TabItem(icon: Icons.info_outline, title: 'Contact'),
-        TabItem(icon: Icons.info_outline, title: 'About'),
+        TabItem(icon: Icons.subscriptions, title: 'Subscription'),
+        TabItem(icon: Icons.contact_phone, title: 'Contact'),
+        // TabItem(icon: Icons.info_outline, title: 'About'),
       ],
       initialActiveIndex: currentIndex,
       onTap: onTap,

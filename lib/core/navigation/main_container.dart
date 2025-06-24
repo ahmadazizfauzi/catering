@@ -1,4 +1,4 @@
-import 'package:catering_1/features/about/presentation/pages/about_screen.dart';
+import 'package:catering_1/features/contact/presentation/pages/contact_screen.dart';
 import 'package:catering_1/features/menu/presentation/pages/menu_screen.dart';
 import 'package:catering_1/features/subscription/presentation/pages/subscription_screen.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +19,8 @@ class _MainContainerState extends State<MainContainer> {
     HomeScreen(),
     MenuScreen(),
     SubscriptionScreen(),
-    // ContactScreen(),
-    AboutScreen()
+    ContactScreen(),
+    // AboutScreen()
   ];
 
   void _onTabTapped(int index) {
