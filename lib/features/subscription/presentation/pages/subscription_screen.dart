@@ -7,6 +7,8 @@ import '../widgets/section/form/form_plan_subscription_section.dart';
 import '../widgets/section/form/form_meal_subscription_section.dart';
 import '../widgets/section/form/form_delivery_subscription_section.dart';
 import '../widgets/section/form/form_alergy_subscription_section.dart';
+import '../provider/subscription_provider.dart';
+import 'package:provider/provider.dart';
 
 class SubscriptionScreen extends StatefulWidget {
   const SubscriptionScreen({super.key});
@@ -112,39 +114,55 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate() &&
-                        _mealTypes.isNotEmpty &&
-                        _deliveryDays.isNotEmpty) {
-                      showDialog(
-                        context: context,
-                        builder:
-                            (_) => AlertDialog(
-                              backgroundColor: AppColors.white['default'],
-                              title: Text(
-                                'Subscription Submitted',
-                                style: TextStyle(
-                                  color: AppColors.brand['default'],
-                                ),
-                              ),
-                              content: Text(
-                                'Thank you, ${_nameCtrl.text}! Your subscription has been received.',
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text(
-                                    'OK',
-                                    style: TextStyle(
-                                      color: AppColors.brand['default'],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                      );
-                    }
-                  },
+                onPressed: () async {
+  if (_formKey.currentState!.validate() &&
+      _mealTypes.isNotEmpty &&
+      _deliveryDays.isNotEmpty) {
+    final provider = Provider.of<SubscriptionProvider>(context, listen: false);
+    await provider.save(
+      name: _nameCtrl.text,
+      phone: _phoneCtrl.text,
+      allergy: _allergyCtrl.text.isEmpty ? null : _allergyCtrl.text,
+      plan: _selectedPlan!,
+      mealTypes: List<String>.from(_mealTypes),
+      deliveryDays: List<String>.from(_deliveryDays),
+      totalPrice: totalPrice,
+    );
+
+    if (provider.message != null && provider.message!.contains("success")) {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          backgroundColor: AppColors.white['default'],
+          title: Text(
+            'Subscription Submitted',
+            style: TextStyle(
+              color: AppColors.brand['default'],
+            ),
+          ),
+          content: Text(
+            'Thank you, ${_nameCtrl.text}! Your subscription has been received.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(
+                'OK',
+                style: TextStyle(
+                  color: AppColors.brand['default'],
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    } else if (provider.message != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(provider.message!)),
+      );
+    }
+  }
+},
                   child: const Text('Submit', style: TextStyle(fontSize: 16)),
                 ),
               ),
