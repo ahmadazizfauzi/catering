@@ -19,6 +19,10 @@ import 'features/subscription/presentation/provider/subscription_provider.dart';
 import 'features/subscription/domain/usecases/save_subscription_usecase.dart';
 import 'features/subscription/data/repositories/subscription_repository_implementation.dart';
 import 'features/subscription/data/datasources/subscription_remote_datasource.dart';
+import 'features/profile/presentation/provider/profile_provider.dart';
+import 'features/profile/domain/usecases/get_current_profile_usecase.dart';
+import 'features/profile/data/repositories/profile_repository_implementation.dart';
+import 'features/profile/data/datasources/profile_remote_datasource.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,6 +63,16 @@ void main() async {
                 ),
               ),
           child: TestimonialScreen(),
+        ),
+        // Tambahkan provider ProfileProvider di sini
+        ChangeNotifierProvider(
+          create: (_) => ProfileProvider(
+            GetCurrentProfileUsecase(
+              ProfileRepositoryImplementation(
+                ProfileRemoteDatasource(),
+              ),
+            ),
+          ),
         ),
       ],
       child: const MyApp(),

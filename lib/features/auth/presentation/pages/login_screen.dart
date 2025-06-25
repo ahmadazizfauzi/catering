@@ -5,7 +5,8 @@ import 'package:provider/provider.dart';
 import '../../../../core/colors/app_colors.dart';
 import '../manager/auth_form_manager.dart';
 import '../../../../core/shared/input/input_text_shared.dart';
-import 'package:catering_1/features/auth/presentation/provider/auth_provider.dart' as my_auth;
+import 'package:catering_1/features/auth/presentation/provider/auth_provider.dart'
+    as my_auth;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -29,7 +30,10 @@ class _LoginScreenState extends State<LoginScreen> {
     if (_formKey.currentState?.validate() ?? false) {
       setState(() => _isLoading = true);
 
-      final authProvider = Provider.of<my_auth.AuthProvider>(context, listen: false);
+      final authProvider = Provider.of<my_auth.AuthProvider>(
+        context,
+        listen: false,
+      );
       await authProvider.login(
         _formManager.emailController.text.trim(),
         _formManager.passwordController.text.trim(),
@@ -47,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
           status: "success",
           onClose: () {
             Navigator.of(context).pop();
-            Navigator.pushReplacementNamed(context, '/main');
+            Navigator.pushReplacementNamed(context, '/main'); // Ganti ke /home
           },
         );
       } else if (authProvider.message != null) {
@@ -106,16 +110,22 @@ class _LoginScreenState extends State<LoginScreen> {
                       label: 'Email',
                       icon: Icons.email,
                       keyboardType: TextInputType.emailAddress,
-                      validator: (v) =>
-                          v == null || !v.contains('@') ? 'Email tidak valid' : null,
+                      validator:
+                          (v) =>
+                              v == null || !v.contains('@')
+                                  ? 'Email tidak valid'
+                                  : null,
                     ),
                     const SizedBox(height: 16),
                     InputTextShared(
                       controller: _formManager.passwordController,
                       label: 'Password',
                       icon: Icons.lock,
-                      validator: (v) =>
-                          v == null || v.length < 6 ? 'Minimal 6 karakter' : null,
+                      validator:
+                          (v) =>
+                              v == null || v.length < 6
+                                  ? 'Minimal 6 karakter'
+                                  : null,
                     ),
                     const SizedBox(height: 28),
                     ButtonShared(

@@ -4,15 +4,16 @@ import '../models/auth_model.dart';
 
 class AuthRemoteDatasource {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final CollectionReference _userCollection =
-      FirebaseFirestore.instance.collection('users');
+  final CollectionReference _userCollection = FirebaseFirestore.instance
+      .collection('users');
 
   Future<void> register(AuthModel authModel, String password) async {
     // Register ke Firebase Auth
-    UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
-      email: authModel.email,
-      password: password,
-    );
+    UserCredential userCredential = await _firebaseAuth
+        .createUserWithEmailAndPassword(
+          email: authModel.email,
+          password: password,
+        );
 
     // Simpan ke collection users
     await _userCollection.doc(userCredential.user!.uid).set({
@@ -23,10 +24,8 @@ class AuthRemoteDatasource {
 
   Future<AuthModel> login(String email, String password) async {
     // Login ke Firebase Auth
-    UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+    UserCredential userCredential = await _firebaseAuth
+        .signInWithEmailAndPassword(email: email, password: password);
 
     // Ambil data user dari Firestore
     final doc = await _userCollection.doc(userCredential.user!.uid).get();
@@ -38,5 +37,9 @@ class AuthRemoteDatasource {
       name: data?['name'] ?? '',
       token: await userCredential.user?.getIdToken(),
     );
+  }
+
+  Future<void> logout() async {
+    await _firebaseAuth.signOut();
   }
 }

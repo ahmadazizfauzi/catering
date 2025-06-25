@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import '../../domain/usecases/register_usecase.dart';
 import '../../domain/usecases/login_usecase.dart';
+import '../../domain/usecases/logout_usecase.dart'; // Tambahkan ini
 import '../../domain/entities/auth.dart';
 
 class AuthProvider extends ChangeNotifier {
   final RegisterUsecase registerUsecase;
   final LoginUsecase? loginUsecase;
+  final LogoutUseCase? logoutUseCase; // Tambahkan ini
 
   bool isLoading = false;
   String? message;
   Auth? currentUser;
 
-  AuthProvider(this.registerUsecase, {this.loginUsecase});
+  AuthProvider(
+    this.registerUsecase, {
+    this.loginUsecase,
+    this.logoutUseCase, // Tambahkan ini
+  });
 
   Future<void> register(Auth auth, String password) async {
     isLoading = true;
@@ -22,6 +28,22 @@ class AuthProvider extends ChangeNotifier {
       message = "Register berhasil!";
     } catch (e) {
       message = "Register gagal: $e";
+    }
+    isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> logout() async {
+    if (logoutUseCase == null) return;
+    isLoading = true;
+    message = null;
+    notifyListeners();
+    try {
+      await logoutUseCase!();
+      currentUser = null;
+      message = "Logout berhasil!";
+    } catch (e) {
+      message = "Logout gagal: $e";
     }
     isLoading = false;
     notifyListeners();
@@ -39,5 +61,6 @@ class AuthProvider extends ChangeNotifier {
       message = "Login gagal: $e";
     }
     isLoading = false;
+    notifyListeners();
   }
 }

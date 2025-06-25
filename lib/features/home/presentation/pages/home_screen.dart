@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:catering_1/core/colors/app_colors.dart';
+import 'package:catering_1/core/shared/appbar/appbar_shared.dart';
 import '../widgets/section/slogan_home_section.dart';
 import '../widgets/section/greeting_home_section.dart';
 import '../widgets/section/service_home_section.dart';
@@ -14,9 +15,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.brand['background'],
-      appBar: AppBar(
-        backgroundColor: AppColors.brand['default'],
-        elevation: 0,
+      appBar: AppbarShared(
         leading:
             onMenuPressed != null
                 ? IconButton(
@@ -24,22 +23,15 @@ class HomeScreen extends StatelessWidget {
                   onPressed: onMenuPressed,
                 )
                 : null,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.restaurant, color: AppColors.white['default']),
-            const SizedBox(width: 8),
-            Text(
-              'SEA Catering',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.2,
-                color: AppColors.white['default'],
-              ),
-            ),
-          ],
-        ),
-        centerTitle: true,
+        icon: Icon(Icons.restaurant, color: AppColors.white['default']),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.person, color: AppColors.white['default']),
+            onPressed: () {
+              Navigator.of(context).pushNamed('/profile');
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),

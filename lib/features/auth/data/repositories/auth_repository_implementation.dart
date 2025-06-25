@@ -19,4 +19,10 @@ class AuthRepositoryImplementation implements AuthRepository {
     final model = await remoteDatasource.login(email, password);
     return model.toEntity();
   }
+  
+  @override
+  Future<void> logout() {
+    return remoteDatasource.logout();
+  }
+  
 }

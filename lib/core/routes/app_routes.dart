@@ -10,5 +10,8 @@ abstract class AppRoutes {
   // contact
   static const String testimonial = '/testimonial';
 
+  // profile
+  static const String profile = '/profile';
+
 
 }

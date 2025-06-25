@@ -1,3 +1,4 @@
+import 'package:catering_1/core/shared/appbar/appbar_shared.dart';
 import 'package:catering_1/features/subscription/presentation/data/subscription_data.dart';
 import 'package:catering_1/features/subscription/presentation/manager/subscription_form_manager.dart';
 import 'package:catering_1/features/subscription/presentation/widgets/section/form/form_biodata_subscription_section.dart.dart';
@@ -32,15 +33,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.brand['background'],
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'Subscription Form',
-          style: TextStyle(color: AppColors.white['default']),
-        ),
-        backgroundColor: AppColors.brand['default'],
-        foregroundColor: Colors.white,
-        elevation: 0,
+      appBar: AppbarShared(
+        title: 'Subscription Form',
+        icon: Icon(Icons.receipt_long, color: AppColors.white['default']),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -59,24 +54,29 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               FormPlanSubscriptionSection(
                 selectedPlan: _formManager.selectedPlan,
                 plans: plans,
-                onChanged: (val) => setState(() => _formManager.selectedPlan = val),
+                onChanged:
+                    (val) => setState(() => _formManager.selectedPlan = val),
               ),
               const SizedBox(height: 24),
               FormMealSubscriptionSection(
                 mealTypes: _formManager.mealTypes,
                 mealOptions: mealOptions,
                 onAdd: (m) => setState(() => _formManager.mealTypes.add(m)),
-                onRemove: (m) => setState(() => _formManager.mealTypes.remove(m)),
+                onRemove:
+                    (m) => setState(() => _formManager.mealTypes.remove(m)),
               ),
               const SizedBox(height: 24),
               FormDeliverySubscriptionSection(
                 deliveryDays: _formManager.deliveryDays,
                 days: days,
                 onAdd: (d) => setState(() => _formManager.deliveryDays.add(d)),
-                onRemove: (d) => setState(() => _formManager.deliveryDays.remove(d)),
+                onRemove:
+                    (d) => setState(() => _formManager.deliveryDays.remove(d)),
               ),
               const SizedBox(height: 16),
-              FormAlergySubscriptionSection(allergyCtrl: _formManager.allergyController),
+              FormAlergySubscriptionSection(
+                allergyCtrl: _formManager.allergyController,
+              ),
               const SizedBox(height: 28),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
