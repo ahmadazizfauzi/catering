@@ -1,5 +1,9 @@
 import 'package:catering_1/core/colors/app_colors.dart';
+import 'package:catering_1/core/shared/modal/modal_alert.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:catering_1/features/auth/presentation/provider/auth_provider.dart'
+    as my_auth;
 
 class AppDrawer extends StatelessWidget {
   final int selectedIndex;
@@ -44,11 +48,21 @@ class AppDrawer extends StatelessWidget {
           _buildDrawerItem(
             context,
             icon: Icons.contact_mail,
-            title: 'Contact',
+            title: 'Contact Perusahaan',
             index: 3,
           ),
-          const Spacer(),
-          _buildCollapseButton(context),
+          _buildDrawerItem(
+            context,
+            icon: Icons.person,
+            title: 'Profile saya',
+            index: 4,
+          ),
+          _buildDrawerItem(
+            context,
+            icon: Icons.person,
+            title: 'Logout',
+            index: 5,
+          ),
         ],
       ),
     );
@@ -105,9 +119,17 @@ class AppDrawer extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       child: InkWell(
-        onTap: () {
-          onItemSelected(index);
-          Navigator.pop(context);
+        onTap: () async {
+          if (title == 'Logout') {
+            await Navigator.of(context).maybePop();
+            await context.read<my_auth.AuthProvider>().logout();
+            if (context.mounted) {
+              Navigator.of(context).pushReplacementNamed('/login');
+            }
+          } else {
+            onItemSelected(index);
+            Navigator.pop(context);
+          }
         },
         borderRadius: BorderRadius.circular(12),
         child: Container(
@@ -140,23 +162,6 @@ class AppDrawer extends StatelessWidget {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCollapseButton(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
-      alignment: Alignment.centerRight,
-      child: IconButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        icon: Icon(
-          Icons.chevron_left,
-          size: 28,
-          color: AppColors.black['default'],
         ),
       ),
     );

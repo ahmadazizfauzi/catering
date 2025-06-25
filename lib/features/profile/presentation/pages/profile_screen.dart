@@ -1,13 +1,13 @@
 import 'package:catering_1/core/colors/app_colors.dart';
 import 'package:catering_1/core/shared/appbar/appbar_shared.dart';
-import 'package:catering_1/features/auth/presentation/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/profile_provider.dart';
-import 'package:catering_1/core/shared/modal/modal_alert.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  final VoidCallback? onMenuPressed;
+
+  const ProfileScreen({super.key, this.onMenuPressed});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -32,6 +32,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppbarShared(
         title: 'Setting',
         icon: const Icon(Icons.person, color: Colors.white),
+        leading:
+            widget.onMenuPressed != null
+                ? IconButton(
+                  icon: const Icon(Icons.menu),
+                  onPressed: widget.onMenuPressed,
+                )
+                : null,
       ),
       body:
           provider.isLoading
@@ -94,39 +101,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {},
                   ),
-                  const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.status['failed'],
-                        minimumSize: const Size.fromHeight(45),
-                      ),
-                      onPressed: () async {
-                        await context.read<AuthProvider>().logout();
-                        if (mounted) {
-                          showModalAlert(
-                            context: context,
-                            title: "Logout Berhasil",
-                            content: "Kamu berhasil keluar dari akun.",
-                            status: "success",
-                            buttonText: "OK",
-                            onClose: () {
-                              Navigator.of(context).pop(); // Tutup modal
-                              Navigator.of(context).pushReplacementNamed(
-                                '/login',
-                              ); // Arahkan ke login
-                            },
-                          );
-                        }
-                      },
-                      child: Text(
-                        "Logout",
-                        style: TextStyle(color: AppColors.white['default']),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
                 ],
               ),
     );
