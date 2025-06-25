@@ -2,6 +2,8 @@ import 'package:catering_1/core/colors/app_colors.dart';
 import 'package:catering_1/core/routes/app_pages.dart';
 import 'package:catering_1/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:catering_1/features/auth/data/repositories/auth_repository_implementation.dart';
+import 'package:catering_1/features/auth/domain/usecases/login_usecase.dart';
+import 'package:catering_1/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:catering_1/features/auth/domain/usecases/register_usecase.dart';
 import 'package:catering_1/features/auth/presentation/provider/auth_provider.dart';
 import 'package:catering_1/features/testimonial/data/datasources/testimonial_remote_datasource.dart';
@@ -46,6 +48,12 @@ void main() async {
                 RegisterUsecase(
                   AuthRepositoryImplementation(AuthRemoteDatasource()),
                 ),
+                loginUsecase: LoginUsecase(
+                  AuthRepositoryImplementation(AuthRemoteDatasource()),
+                ),
+                logoutUseCase: LogoutUseCase(
+                  AuthRepositoryImplementation(AuthRemoteDatasource()),
+                ),
               ),
         ),
         ChangeNotifierProvider(
@@ -66,13 +74,12 @@ void main() async {
         ),
         // Tambahkan provider ProfileProvider di sini
         ChangeNotifierProvider(
-          create: (_) => ProfileProvider(
-            GetCurrentProfileUsecase(
-              ProfileRepositoryImplementation(
-                ProfileRemoteDatasource(),
+          create:
+              (_) => ProfileProvider(
+                GetCurrentProfileUsecase(
+                  ProfileRepositoryImplementation(ProfileRemoteDatasource()),
+                ),
               ),
-            ),
-          ),
         ),
       ],
       child: const MyApp(),

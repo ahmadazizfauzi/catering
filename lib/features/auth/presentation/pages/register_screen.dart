@@ -136,11 +136,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       controller: _formManager.passwordController,
                       label: 'Password',
                       icon: Icons.lock,
-                      validator:
-                          (v) =>
-                              v == null || v.length < 6
-                                  ? 'Minimal 6 karakter'
-                                  : null,
+                      validator: (v) {
+                        if (v == null || v.isEmpty) {
+                          return 'Password wajib diisi';
+                        }
+                        if (v.length < 8) {
+                          return 'Minimal 8 karakter';
+                        }
+                        if (!RegExp(r'[A-Z]').hasMatch(v)) {
+                          return 'Harus ada huruf besar';
+                        }
+                        if (!RegExp(r'[a-z]').hasMatch(v)) {
+                          return 'Harus ada huruf kecil';
+                        }
+                        if (!RegExp(r'[0-9]').hasMatch(v)) {
+                          return 'Harus ada angka';
+                        }
+                        if (!RegExp(
+                          r"[!@#\$&*~%^()\-_+=\[\]{};:\\"
+                          ",.<>?/\\|']",
+                        ).hasMatch(v)) {
+                          return 'Harus ada karakter spesial';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 28),
                     ButtonShared(
@@ -151,7 +170,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(height: 12),
                     TextButton(
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        Navigator.pushNamed(context, '/login');
                       },
                       child: Text(
                         'Sudah punya akun? Masuk',

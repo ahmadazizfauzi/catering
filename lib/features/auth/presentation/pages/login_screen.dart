@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
           status: "success",
           onClose: () {
             Navigator.of(context).pop();
-            Navigator.pushReplacementNamed(context, '/main'); // Ganti ke /home
+            Navigator.pushReplacementNamed(context, '/main'); 
           },
         );
       } else if (authProvider.message != null) {

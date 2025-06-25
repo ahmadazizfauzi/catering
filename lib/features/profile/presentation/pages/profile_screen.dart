@@ -4,6 +4,7 @@ import 'package:catering_1/features/auth/presentation/provider/auth_provider.dar
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/profile_provider.dart';
+import 'package:catering_1/core/shared/modal/modal_alert.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -102,12 +103,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         minimumSize: const Size.fromHeight(45),
                       ),
                       onPressed: () async {
-                        // Logout via AuthProvider
                         await context.read<AuthProvider>().logout();
-                        // Navigasi ke halaman login (ganti sesuai kebutuhan)
                         if (mounted) {
-                          // ignore: use_build_context_synchronously
-                          Navigator.of(context).pushReplacementNamed('/login');
+                          showModalAlert(
+                            context: context,
+                            title: "Logout Berhasil",
+                            content: "Kamu berhasil keluar dari akun.",
+                            status: "success",
+                            buttonText: "OK",
+                            onClose: () {
+                              Navigator.of(context).pop(); // Tutup modal
+                              Navigator.of(context).pushReplacementNamed(
+                                '/login',
+                              ); // Arahkan ke login
+                            },
+                          );
                         }
                       },
                       child: Text(
