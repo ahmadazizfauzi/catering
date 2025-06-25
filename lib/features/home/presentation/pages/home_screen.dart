@@ -19,19 +19,11 @@ class HomeScreen extends StatelessWidget {
         leading:
             onMenuPressed != null
                 ? IconButton(
-                  icon: Icon(Icons.menu, color: AppColors.brand['accent']),
+                  icon: Icon(Icons.menu, color: AppColors.white['default']),
                   onPressed: onMenuPressed,
                 )
                 : null,
         icon: Icon(Icons.restaurant, color: AppColors.white['default']),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.person, color: AppColors.white['default']),
-            onPressed: () {
-              Navigator.of(context).pushNamed('/profile');
-            },
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),

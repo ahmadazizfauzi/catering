@@ -5,7 +5,9 @@ import '../widgets/section/list_menu_section.dart';
 import 'package:catering_1/core/shared/modal/modal_alert.dart';
 
 class MenuScreen extends StatelessWidget {
-  const MenuScreen({super.key});
+  final VoidCallback? onMenuPressed;
+
+  const MenuScreen({super.key, this.onMenuPressed});
 
   void _showDetails(BuildContext context, Map<String, String> plan) {
     showDialog(
@@ -23,6 +25,13 @@ class MenuScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.brand['light'],
       appBar: AppbarShared(
+        leading:
+            onMenuPressed != null
+                ? IconButton(
+                  icon: Icon(Icons.menu, color: AppColors.white['default']),
+                  onPressed: onMenuPressed,
+                )
+                : null,
         title: 'Meal Plans',
         icon: Icon(Icons.restaurant_menu, color: AppColors.white['default']),
       ),

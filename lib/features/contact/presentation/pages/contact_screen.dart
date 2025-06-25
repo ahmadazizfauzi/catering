@@ -2,12 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:catering_1/core/colors/app_colors.dart';
 
 class ContactScreen extends StatelessWidget {
-  const ContactScreen({super.key});
+  final VoidCallback? onMenuPressed;
+
+  const ContactScreen({super.key, this.onMenuPressed});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.brand['background'],
+      appBar: AppBar(
+        backgroundColor: AppColors.brand['default'],
+        elevation: 0,
+        leading:
+            onMenuPressed != null
+                ? IconButton(
+                  icon: Icon(Icons.menu, color: AppColors.white['default']),
+                  onPressed: onMenuPressed,
+                )
+                : null,
+        title: Text('Contact Us', style: TextStyle(
+          color: AppColors.white['default'],
+        ),),
+      ),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
@@ -22,7 +38,11 @@ class ContactScreen extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.phone_in_talk, size: 64, color: AppColors.brand['default']),
+                  Icon(
+                    Icons.phone_in_talk,
+                    size: 64,
+                    color: AppColors.brand['default'],
+                  ),
                   const SizedBox(height: 16),
                   Text(
                     'Contact Us',
@@ -107,10 +127,17 @@ class ContactScreen extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton.icon(
-                      icon: Icon(Icons.star_rate_rounded, color: Colors.amber[600], size: 26),
+                      icon: Icon(
+                        Icons.star_rate_rounded,
+                        color: Colors.amber[600],
+                        size: 26,
+                      ),
                       label: const Text(
                         "Beri Kami Rating",
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
                       ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.brand['default'],

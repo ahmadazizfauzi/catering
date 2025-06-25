@@ -13,7 +13,9 @@ import '../provider/subscription_provider.dart';
 import 'package:provider/provider.dart';
 
 class SubscriptionScreen extends StatefulWidget {
-  const SubscriptionScreen({super.key});
+  final VoidCallback? onMenuPressed;
+
+  const SubscriptionScreen({super.key, this.onMenuPressed});
 
   @override
   State<SubscriptionScreen> createState() => _SubscriptionScreenState();
@@ -34,6 +36,13 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     return Scaffold(
       backgroundColor: AppColors.brand['background'],
       appBar: AppbarShared(
+        leading:
+            widget.onMenuPressed != null
+                ? IconButton(
+                  icon: Icon(Icons.menu, color: AppColors.white['default']),
+                  onPressed: widget.onMenuPressed,
+                )
+                : null,
         title: 'Subscription Form',
         icon: Icon(Icons.receipt_long, color: AppColors.white['default']),
       ),

@@ -25,11 +25,14 @@ class AppbarShared extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: backgroundColor ?? AppColors.brand['default'],
       elevation: 0,
+      iconTheme: const IconThemeData(
+        color: Colors.white, // Icon hamburger/menu jadi putih
+      ),
       leading: leading,
-      automaticallyImplyLeading: false, // <-- tambahkan baris ini
+      automaticallyImplyLeading: false,
       actions: actions,
       title: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           icon ?? const SizedBox.shrink(),
           if (icon != null) const SizedBox(width: 8),
