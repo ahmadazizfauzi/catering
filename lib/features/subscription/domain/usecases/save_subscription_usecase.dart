@@ -6,7 +6,7 @@ class SaveSubscriptionUsecase {
 
   SaveSubscriptionUsecase(this.repository);
 
-  Future<void> call(Subscription subscription) {
-    return repository.saveSubscription(subscription);
+  Future<void> call(Subscription subscription, String userId) {
+    return repository.saveSubscription(subscription, userId);
   }
 }

@@ -2,7 +2,7 @@ import 'package:catering_1/core/shared/drawer/app_drawer.dart';
 import 'package:catering_1/features/contact/presentation/pages/contact_screen.dart';
 import 'package:catering_1/features/home/presentation/pages/home_screen.dart';
 import 'package:catering_1/features/menu/presentation/pages/menu_screen.dart';
-import 'package:catering_1/features/subscription/presentation/pages/subscription_screen.dart';
+import 'package:catering_1/features/subscription/presentation/pages/user/subscription_screen.dart';
 import 'package:catering_1/features/profile/presentation/pages/profile_screen.dart';
 import 'package:flutter/material.dart';
 

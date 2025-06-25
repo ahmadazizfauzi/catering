@@ -1,15 +1,18 @@
 import 'package:catering_1/core/shared/appbar/appbar_shared.dart';
+import 'package:catering_1/core/shared/button/button_shared.dart';
+import 'package:catering_1/core/shared/modal/modal_alert.dart';
 import 'package:catering_1/features/subscription/presentation/data/subscription_data.dart';
 import 'package:catering_1/features/subscription/presentation/manager/subscription_form_manager.dart';
 import 'package:catering_1/features/subscription/presentation/widgets/section/form/form_biodata_subscription_section.dart.dart';
 import 'package:catering_1/features/subscription/presentation/widgets/section/header/header_subscription_section.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:catering_1/core/colors/app_colors.dart';
-import '../widgets/section/form/form_plan_subscription_section.dart';
-import '../widgets/section/form/form_meal_subscription_section.dart';
-import '../widgets/section/form/form_delivery_subscription_section.dart';
-import '../widgets/section/form/form_alergy_subscription_section.dart';
-import '../provider/subscription_provider.dart';
+import '../../widgets/section/form/form_plan_subscription_section.dart';
+import '../../widgets/section/form/form_meal_subscription_section.dart';
+import '../../widgets/section/form/form_delivery_subscription_section.dart';
+import '../../widgets/section/form/form_alergy_subscription_section.dart';
+import '../../provider/subscription_provider.dart';
 import 'package:provider/provider.dart';
 
 class SubscriptionScreen extends StatefulWidget {
@@ -24,6 +27,7 @@ class SubscriptionScreen extends StatefulWidget {
 class _SubscriptionScreenState extends State<SubscriptionScreen> {
   final _formManager = SubscriptionFormManager();
   final _formKey = GlobalKey<FormState>();
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -111,23 +115,67 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               const SizedBox(height: 24),
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.brand['default'],
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate() &&
-                        _formManager.isValid) {
-                      final provider = Provider.of<SubscriptionProvider>(
-                        context,
-                        listen: false,
-                      );
-                      await provider.save(_formManager.toEntity());
-                    }
-                  },
-                  child: const Text('Submit', style: TextStyle(fontSize: 16)),
+                child: ButtonShared(
+                  onPressed:
+                      _isLoading
+                          ? null
+                          : () async {
+                            if (_formKey.currentState!.validate() &&
+                                _formManager.isValid) {
+                              setState(() => _isLoading = true);
+                              final provider =
+                                  Provider.of<SubscriptionProvider>(
+                                    context,
+                                    listen: false,
+                                  );
+                              final userId =
+                                  FirebaseAuth.instance.currentUser?.uid ?? '';
+                              await provider.save(
+                                _formManager.toEntity(userId),
+                                userId,
+                              );
+                              setState(() => _isLoading = false);
+
+                              if (provider.message?.contains("success") ==
+                                  true) {
+                                showModalAlert(
+                                  context: context,
+                                  title: "Berhasil",
+                                  content: "Subscription berhasil disimpan!",
+                                  status: "success",
+                                  buttonText: "OK",
+                                  onClose: () {
+                                    Navigator.of(
+                                      context,
+                                      rootNavigator: true,
+                                    ).pop();
+                                    // Setelah modal tertutup, reset form
+                                    _formKey.currentState?.reset();
+                                    _formManager.nameController.clear();
+                                    _formManager.phoneController.clear();
+                                    _formManager.allergyController.clear();
+                                    _formManager.selectedPlan = null;
+                                    _formManager.mealTypes.clear();
+                                    _formManager.deliveryDays.clear();
+                                    setState(() {});
+                                  },
+                                );
+                              } else if (provider.message != null) {
+                                showModalAlert(
+                                  context: context,
+                                  title: "Gagal",
+                                  content: provider.message!,
+                                  status: "failed",
+                                  buttonText: "OK",
+                                  onClose: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                );
+                              }
+                            }
+                          },
+                  text: 'Submit',
+                  isLoading: _isLoading,
                 ),
               ),
             ],

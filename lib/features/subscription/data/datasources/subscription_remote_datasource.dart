@@ -4,14 +4,29 @@ import '../models/subscription_model.dart';
 class SubscriptionRemoteDatasource {
   final _collection = FirebaseFirestore.instance.collection('subscriptions');
 
-  Future<void> addSubscription(SubscriptionModel subscription) async {
-    await _collection.add(subscription.toMap());
+  Future<void> addSubscription(
+    SubscriptionModel subscription,
+    String userId,
+  ) async {
+    await _collection.add({
+      ...subscription.toMap(),
+      'userId': userId, // pastikan userId selalu tersimpan
+    });
   }
 
-  Future<List<SubscriptionModel>> getSubscriptions() async {
-    final snapshot = await _collection.orderBy('createdAt', descending: true).get();
+  Future<List<SubscriptionModel>> getSubscriptions({String? userId}) async {
+    Query query = _collection.orderBy('createdAt', descending: true);
+    if (userId != null) {
+      query = query.where('userId', isEqualTo: userId);
+    }
+    final snapshot = await query.get();
     return snapshot.docs
-        .map((doc) => SubscriptionModel.fromMap(doc.id, doc.data()))
+        .map(
+          (doc) => SubscriptionModel.fromMap(
+            doc.id,
+            doc.data() as Map<String, dynamic>,
+          ),
+        )
         .toList();
   }
 }

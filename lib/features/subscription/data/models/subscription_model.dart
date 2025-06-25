@@ -3,6 +3,7 @@ import '../../domain/entities/subscription.dart';
 
 class SubscriptionModel {
   final String? id;
+  final String userId;
   final String name;
   final String phone;
   final String? allergy;
@@ -10,9 +11,11 @@ class SubscriptionModel {
   final List<String> mealTypes;
   final List<String> deliveryDays;
   final double totalPrice;
+  final String status;
 
   SubscriptionModel({
     this.id,
+    required this.userId,
     required this.name,
     required this.phone,
     this.allergy,
@@ -20,10 +23,12 @@ class SubscriptionModel {
     required this.mealTypes,
     required this.deliveryDays,
     required this.totalPrice,
+    this.status = 'aktif', // Default: aktif
   });
 
   Map<String, dynamic> toMap() {
     return {
+      'userId': userId,
       'name': name,
       'phone': phone,
       'allergy': allergy,
@@ -31,6 +36,7 @@ class SubscriptionModel {
       'mealTypes': mealTypes,
       'deliveryDays': deliveryDays,
       'totalPrice': totalPrice,
+      'status': status,
       'createdAt': FieldValue.serverTimestamp(),
     };
   }
@@ -38,6 +44,7 @@ class SubscriptionModel {
   factory SubscriptionModel.fromMap(String id, Map<String, dynamic> map) {
     return SubscriptionModel(
       id: id,
+      userId: map['userId'] ?? '',
       name: map['name'] ?? '',
       phone: map['phone'] ?? '',
       allergy: map['allergy'],
@@ -45,6 +52,7 @@ class SubscriptionModel {
       mealTypes: List<String>.from(map['mealTypes'] ?? []),
       deliveryDays: List<String>.from(map['deliveryDays'] ?? []),
       totalPrice: (map['totalPrice'] ?? 0).toDouble(),
+      status: map['status'] ?? 'aktif',
     );
   }
 
@@ -52,6 +60,7 @@ class SubscriptionModel {
   factory SubscriptionModel.fromEntity(Subscription entity) {
     return SubscriptionModel(
       id: entity.id,
+      userId: entity.userId,
       name: entity.name,
       phone: entity.phone,
       allergy: entity.allergy,
@@ -59,6 +68,7 @@ class SubscriptionModel {
       mealTypes: entity.mealTypes,
       deliveryDays: entity.deliveryDays,
       totalPrice: entity.totalPrice,
+      status: entity.status,
     );
   }
 
@@ -66,6 +76,7 @@ class SubscriptionModel {
   Subscription toEntity() {
     return Subscription(
       id: id,
+      userId: userId,
       name: name,
       phone: phone,
       allergy: allergy,
@@ -73,6 +84,7 @@ class SubscriptionModel {
       mealTypes: mealTypes,
       deliveryDays: deliveryDays,
       totalPrice: totalPrice,
+      status: status,
     );
   }
 }

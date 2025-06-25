@@ -10,12 +10,12 @@ class SubscriptionProvider extends ChangeNotifier {
 
   SubscriptionProvider(this.saveSubscriptionUsecase);
 
-  Future<void> save(Subscription subscription) async {
+  Future<void> save(Subscription subscription, String userId) async {
     isLoading = true;
     message = null;
     notifyListeners();
     try {
-      await saveSubscriptionUsecase(subscription);
+      await saveSubscriptionUsecase(subscription, userId);
       message = "Subscription saved successfully!";
     } catch (e) {
       message = "Failed to save subscription: $e";

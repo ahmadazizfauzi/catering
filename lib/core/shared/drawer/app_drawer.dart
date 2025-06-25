@@ -1,5 +1,4 @@
 import 'package:catering_1/core/colors/app_colors.dart';
-import 'package:catering_1/core/shared/modal/modal_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catering_1/features/auth/presentation/provider/auth_provider.dart'
@@ -122,6 +121,7 @@ class AppDrawer extends StatelessWidget {
         onTap: () async {
           if (title == 'Logout') {
             await Navigator.of(context).maybePop();
+            // ignore: use_build_context_synchronously
             await context.read<my_auth.AuthProvider>().logout();
             if (context.mounted) {
               Navigator.of(context).pushReplacementNamed('/login');
