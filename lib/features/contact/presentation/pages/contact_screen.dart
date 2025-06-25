@@ -81,6 +81,7 @@ class ContactScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 18),
+                  // ignore: deprecated_member_use
                   Divider(color: AppColors.brand['dark']!.withOpacity(0.2)),
                   const SizedBox(height: 8),
                   Text(

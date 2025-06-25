@@ -4,8 +4,6 @@ import '../widgets/section/slogan_home_section.dart';
 import '../widgets/section/greeting_home_section.dart';
 import '../widgets/section/service_home_section.dart';
 import '../widgets/section/contact_home_section.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeScreen extends StatelessWidget {
   final VoidCallback? onMenuPressed;

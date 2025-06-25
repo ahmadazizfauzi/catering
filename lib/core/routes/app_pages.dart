@@ -1,6 +1,5 @@
 import 'package:catering_1/core/navigation/main_container.dart';
-import 'package:catering_1/features/about/presentation/pages/testimonial_screen.dart';
-import 'package:catering_1/features/about/presentation/widgets/section/testimonial_section.dart';
+import 'package:catering_1/features/testimonial/presentation/pages/testimonial_screen.dart';
 import 'package:catering_1/features/auth/presentation/pages/login_screen.dart';
 import 'package:catering_1/features/auth/presentation/pages/register_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';

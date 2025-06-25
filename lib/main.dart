@@ -4,6 +4,12 @@ import 'package:catering_1/features/auth/data/datasources/auth_remote_datasource
 import 'package:catering_1/features/auth/data/repositories/auth_repository_implementation.dart';
 import 'package:catering_1/features/auth/domain/usecases/register_usecase.dart';
 import 'package:catering_1/features/auth/presentation/provider/auth_provider.dart';
+import 'package:catering_1/features/testimonial/data/datasources/testimonial_remote_datasource.dart';
+import 'package:catering_1/features/testimonial/data/repositories/testimonial_repository_implementation.dart';
+import 'package:catering_1/features/testimonial/domain/usecases/get_all_testimonial_usecase.dart';
+import 'package:catering_1/features/testimonial/domain/usecases/save_testimonial_usecase.dart';
+import 'package:catering_1/features/testimonial/presentation/pages/testimonial_screen.dart';
+import 'package:catering_1/features/testimonial/presentation/provider/testimonial_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -21,22 +27,38 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => SubscriptionProvider(
-            SaveSubscriptionUsecase(
-              SubscriptionRepositoryImplementation(
-                SubscriptionRemoteDatasource(),
+          create:
+              (_) => SubscriptionProvider(
+                SaveSubscriptionUsecase(
+                  SubscriptionRepositoryImplementation(
+                    SubscriptionRemoteDatasource(),
+                  ),
+                ),
               ),
-            ),
-          ),
         ),
-         ChangeNotifierProvider(
-          create: (_) => AuthProvider(
-            RegisterUsecase(
-              AuthRepositoryImplementation(
-                AuthRemoteDatasource(),
+        ChangeNotifierProvider(
+          create:
+              (_) => AuthProvider(
+                RegisterUsecase(
+                  AuthRepositoryImplementation(AuthRemoteDatasource()),
+                ),
               ),
-            ),
-          ),
+        ),
+        ChangeNotifierProvider(
+          create:
+              (_) => TestimonialProvider(
+                SaveTestimonialUsecase(
+                  TestimonialRepositoryImplementation(
+                    TestimonialRemoteDatasource(),
+                  ),
+                ),
+                GetAllTestimonialUsecase(
+                  TestimonialRepositoryImplementation(
+                    TestimonialRemoteDatasource(),
+                  ),
+                ),
+              ),
+          child: TestimonialScreen(),
         ),
       ],
       child: const MyApp(),
@@ -49,10 +71,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   return MaterialApp(
+    return MaterialApp(
       title: 'Bougas App',
       theme: ThemeData(
-        fontFamily: 'Poppins', 
+        fontFamily: 'Poppins',
         scaffoldBackgroundColor: AppColors.white['default'],
         appBarTheme: AppBarTheme(
           backgroundColor: AppColors.white['default'],
