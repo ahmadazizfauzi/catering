@@ -15,4 +15,7 @@ abstract class AppRoutes {
 
   static const String splash = '/splash';
 
+  static const String userSubscription = '/user_subscriptions';
+
+
 }

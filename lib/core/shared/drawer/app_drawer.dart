@@ -58,9 +58,15 @@ class AppDrawer extends StatelessWidget {
           ),
           _buildDrawerItem(
             context,
-            icon: Icons.person,
-            title: 'Logout',
+            icon: Icons.assignment_turned_in,
+            title: 'My Meal Plan',
             index: 5,
+          ),
+          _buildDrawerItem(
+            context,
+            icon: Icons.logout,
+            title: 'Logout',
+            index: 6,
           ),
         ],
       ),

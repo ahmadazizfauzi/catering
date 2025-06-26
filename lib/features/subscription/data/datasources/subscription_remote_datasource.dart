@@ -10,7 +10,7 @@ class SubscriptionRemoteDatasource {
   ) async {
     await _collection.add({
       ...subscription.toMap(),
-      'userId': userId, // pastikan userId selalu tersimpan
+      'userId': userId, 
     });
   }
 
