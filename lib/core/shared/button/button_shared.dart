@@ -11,6 +11,7 @@ class ButtonShared extends StatelessWidget {
   final Color? textColor;
   final double borderRadius;
   final double fontSize;
+  final Widget? leading; 
 
   const ButtonShared({
     super.key,
@@ -23,42 +24,52 @@ class ButtonShared extends StatelessWidget {
     this.textColor,
     this.borderRadius = 12,
     this.fontSize = 18,
+    this.leading, 
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: width ?? double.infinity,
+      width: width,
       height: height,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor ?? AppColors.brand['default'],
           foregroundColor: textColor ?? AppColors.white['default'],
-          padding: const EdgeInsets.symmetric(vertical: 10),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius),
           ),
         ),
         onPressed: isLoading ? null : onPressed,
-        child:
-            isLoading
-                ? SizedBox(
-                  height: fontSize + 8, // Sesuaikan tinggi agar proporsional
-                  width: fontSize + 8,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2.5,
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      textColor ?? AppColors.white['default']!,
-                    ),
-                  ),
-                )
-                : Text(
-                  text,
-                  style: TextStyle(
-                    fontSize: fontSize,
-                    fontWeight: FontWeight.w600,
+        child: isLoading
+            ? SizedBox(
+                height: fontSize + 8,
+                width: fontSize + 8,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    textColor ?? AppColors.white['default']!,
                   ),
                 ),
+              )
+            : Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (leading != null) ...[
+                    leading!,
+                    const SizedBox(width: 8),
+                  ],
+                  Text(
+                    text,
+                    style: TextStyle(
+                      fontSize: fontSize,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
       ),
     );
   }

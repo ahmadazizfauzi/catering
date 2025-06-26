@@ -7,6 +7,7 @@ import 'package:catering_1/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:catering_1/features/auth/domain/usecases/register_usecase.dart';
 import 'package:catering_1/features/auth/presentation/provider/auth_provider.dart';
 import 'package:catering_1/features/subscription/domain/usecases/get_user_subscription.dart';
+import 'package:catering_1/features/subscription/domain/usecases/update_status_user_subscription_usecase.dart';
 import 'package:catering_1/features/testimonial/data/datasources/testimonial_remote_datasource.dart';
 import 'package:catering_1/features/testimonial/data/repositories/testimonial_repository_implementation.dart';
 import 'package:catering_1/features/testimonial/domain/usecases/get_all_testimonial_usecase.dart';
@@ -42,6 +43,11 @@ void main() async {
                   ),
                 ),
                 GetUserSubscriptionUsecase(
+                  SubscriptionRepositoryImplementation(
+                    SubscriptionRemoteDatasource(),
+                  ),
+                ),
+                UpdateStatusUserSubscriptionUsecase(
                   SubscriptionRepositoryImplementation(
                     SubscriptionRemoteDatasource(),
                   ),

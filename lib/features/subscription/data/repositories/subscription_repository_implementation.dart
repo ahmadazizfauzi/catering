@@ -19,4 +19,9 @@ class SubscriptionRepositoryImplementation implements SubscriptionRepository {
     final models = await remoteDatasource.getSubscriptions(userId: userId);
     return models.map((m) => m.toEntity()).toList();
   }
+
+  @override
+  Future<void> updateStatus(String id, String status) {
+    return remoteDatasource.updateStatus(id, status);
+  }
 }
