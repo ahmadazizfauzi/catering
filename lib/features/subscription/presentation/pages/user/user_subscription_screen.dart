@@ -96,6 +96,18 @@ class _UserSubscriptionScreenState extends State<UserSubscriptionScreen> {
                               userId,
                             );
                           },
+                          onCancel: () async {
+                            final userId =
+                                FirebaseAuth.instance.currentUser?.uid ?? '';
+                            if (userId.isEmpty) return;
+                            final provider =
+                                context.read<SubscriptionProvider>();
+                            await provider.updateStatus(
+                              sub.id!,
+                              'cancel',
+                              userId,
+                            );
+                          },
                           onDetail: () {
                             showDialog(
                               context: context,

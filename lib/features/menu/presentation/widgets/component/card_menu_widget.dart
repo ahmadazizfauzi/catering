@@ -7,6 +7,7 @@ class CardMenuWidget extends StatelessWidget {
   final VoidCallback onDetail;
   final String? statusText;
   final Future<void> Function()? onToggleStatus;
+  final Future<void> Function()? onCancel;
 
   const CardMenuWidget({
     super.key,
@@ -14,6 +15,7 @@ class CardMenuWidget extends StatelessWidget {
     required this.onDetail,
     this.statusText,
     this.onToggleStatus,
+    this.onCancel, 
   });
 
   Color? getStatusColor() {
@@ -67,7 +69,7 @@ class CardMenuWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    
+
                     if (statusText != null && statusColor != null)
                       Positioned(
                         top: 12,
@@ -156,7 +158,7 @@ class CardMenuWidget extends StatelessWidget {
                                   const SizedBox(width: 8),
                                   ButtonShared(
                                     onPressed:
-                                        () {}, // Fungsi kosong untuk UI dulu
+                                        onCancel, // <-- panggil onCancel di sini
                                     text: 'Cancel',
                                     backgroundColor: Colors.red,
                                     textColor: Colors.white,
@@ -174,7 +176,7 @@ class CardMenuWidget extends StatelessWidget {
                                 statusText?.toLowerCase() == 'pause'))
                               const SizedBox.shrink(),
                             const SizedBox(height: 8),
-                             ButtonShared(
+                            ButtonShared(
                               width: double.infinity,
                               onPressed: onDetail,
                               text: 'See More Details',
