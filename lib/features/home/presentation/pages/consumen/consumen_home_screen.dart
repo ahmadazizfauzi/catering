@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:catering_1/core/colors/app_colors.dart';
 import 'package:catering_1/core/shared/appbar/appbar_shared.dart';
-import '../widgets/section/slogan_home_section.dart';
-import '../widgets/section/greeting_home_section.dart';
-import '../widgets/section/service_home_section.dart';
-import '../widgets/section/contact_home_section.dart';
+import '../../widgets/section/slogan_home_section.dart';
+import '../../widgets/section/greeting_home_section.dart';
+import '../../widgets/section/service_home_section.dart';
+import '../../widgets/section/contact_home_section.dart';
 
 class ConsumenHomeScreen extends StatelessWidget {
   final VoidCallback? onMenuPressed;

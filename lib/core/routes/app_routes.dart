@@ -17,5 +17,7 @@ abstract class AppRoutes {
 
   static const String userSubscription = '/user_subscriptions';
 
+// admin
+  static const String adminSubscriptionGrowth = '/admin-subscription-growth';
 
 }

@@ -1,4 +1,5 @@
 import 'package:catering_1/core/navigation/main_container.dart';
+import 'package:catering_1/features/home/presentation/pages/admin/tree/admin_subscription_growth_screen.dart';
 import 'package:catering_1/features/profile/presentation/pages/profile_screen.dart';
 import 'package:catering_1/features/subscription/presentation/pages/user/user_subscription_screen.dart';
 import 'package:catering_1/features/testimonial/presentation/pages/testimonial_screen.dart';
@@ -21,5 +22,6 @@ class AppPages {
     AppRoutes.testimonial: (context) => TestimonialScreen(),
     AppRoutes.profile: (context) => ProfileScreen(),
     AppRoutes.userSubscription: (context) => UserSubscriptionScreen(),
+    AppRoutes.adminSubscriptionGrowth: (context) => AdminSubscriptionGrowthScreen(),
   };
 }
