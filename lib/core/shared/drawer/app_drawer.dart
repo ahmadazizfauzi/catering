@@ -19,6 +19,8 @@ class AppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     final bool isNarrow = screenSize.width < 350;
+    final profileProvider = Provider.of<ProfileProvider>(context, listen: true);
+    final role = profileProvider.profile?.role ?? 'consumen';
 
     return Drawer(
       backgroundColor: AppColors.brand['light'],
@@ -33,36 +35,39 @@ class AppDrawer extends StatelessWidget {
             title: 'Beranda',
             index: 0,
           ),
-          _buildDrawerItem(
-            context,
-            icon: Icons.restaurant_menu,
-            title: 'Meal',
-            index: 1,
-          ),
-          _buildDrawerItem(
-            context,
-            icon: Icons.receipt_long,
-            title: 'Subscription',
-            index: 2,
-          ),
-          _buildDrawerItem(
-            context,
-            icon: Icons.contact_mail,
-            title: 'Contact Perusahaan',
-            index: 3,
-          ),
+          if (role != 'admin') ...[
+            _buildDrawerItem(
+              context,
+              icon: Icons.restaurant_menu,
+              title: 'Meal',
+              index: 1,
+            ),
+            _buildDrawerItem(
+              context,
+              icon: Icons.receipt_long,
+              title: 'Subscription',
+              index: 2,
+            ),
+            _buildDrawerItem(
+              context,
+              icon: Icons.contact_mail,
+              title: 'Contact Perusahaan',
+              index: 3,
+            ),
+          ],
           _buildDrawerItem(
             context,
             icon: Icons.person,
             title: 'Profile saya',
             index: 4,
           ),
-          _buildDrawerItem(
-            context,
-            icon: Icons.assignment_turned_in,
-            title: 'My Meal Plan',
-            index: 5,
-          ),
+          if (role != 'admin')
+            _buildDrawerItem(
+              context,
+              icon: Icons.subscriptions,
+              title: 'My Subscription',
+              index: 5,
+            ),
           _buildDrawerItem(
             context,
             icon: Icons.logout,

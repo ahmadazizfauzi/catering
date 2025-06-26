@@ -1,6 +1,7 @@
 import 'package:catering_1/core/shared/drawer/app_drawer.dart';
 import 'package:catering_1/features/contact/presentation/pages/contact_screen.dart';
-import 'package:catering_1/features/home/presentation/pages/home_screen.dart';
+import 'package:catering_1/features/home/presentation/pages/admin_home_screen.dart';
+import 'package:catering_1/features/home/presentation/pages/consumen_home_screen.dart';
 import 'package:catering_1/features/menu/presentation/pages/menu_screen.dart';
 import 'package:catering_1/features/profile/presentation/provider/profile_provider.dart';
 import 'package:catering_1/features/subscription/presentation/pages/user/subscription_screen.dart';
@@ -47,11 +48,20 @@ class _MainContainerState extends State<MainContainer> {
   }
 
   Widget _buildScreen() {
+    final profileProvider = Provider.of<ProfileProvider>(context, listen: true);
+    final role = profileProvider.profile?.role ?? 'consumen';
+
     switch (_selectedIndex) {
       case 0:
-        return HomeScreen(
-          onMenuPressed: () => _scaffoldKey.currentState?.openDrawer(),
-        );
+        if (role == 'admin') {
+          return AdminHomeScreen(
+            onMenuPressed: () => _scaffoldKey.currentState?.openDrawer(),
+          );
+        } else {
+          return ConsumenHomeScreen(
+            onMenuPressed: () => _scaffoldKey.currentState?.openDrawer(),
+          );
+        }
       case 1:
         return MenuScreen(
           onMenuPressed: () => _scaffoldKey.currentState?.openDrawer(),
@@ -72,11 +82,16 @@ class _MainContainerState extends State<MainContainer> {
         return UserSubscriptionScreen(
           onMenuPressed: () => _scaffoldKey.currentState?.openDrawer(),
         );
-
       default:
-        return HomeScreen(
-          onMenuPressed: () => _scaffoldKey.currentState?.openDrawer(),
-        );
+        if (role == 'admin') {
+          return AdminHomeScreen(
+            onMenuPressed: () => _scaffoldKey.currentState?.openDrawer(),
+          );
+        } else {
+          return ConsumenHomeScreen(
+            onMenuPressed: () => _scaffoldKey.currentState?.openDrawer(),
+          );
+        }
     }
   }
 }

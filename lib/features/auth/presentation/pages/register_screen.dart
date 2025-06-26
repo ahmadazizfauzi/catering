@@ -137,6 +137,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       controller: _formManager.passwordController,
                       label: 'Password',
                       icon: Icons.lock,
+                      action: true,
                       validator: (v) {
                         if (v == null || v.isEmpty) {
                           return 'Password wajib diisi';
@@ -164,6 +165,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     const SizedBox(height: 28),
                     ButtonShared(
+                      width: double.infinity,
                       onPressed: _isLoading ? null : _submit,
                       text: 'Daftar',
                       isLoading: _isLoading,

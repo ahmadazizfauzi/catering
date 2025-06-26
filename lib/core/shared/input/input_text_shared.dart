@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:catering_1/core/colors/app_colors.dart';
 
-class InputTextShared extends StatelessWidget {
+class InputTextShared extends StatefulWidget {
   final TextEditingController controller;
   final String label;
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
   final IconData? icon;
+  final bool action; 
 
   const InputTextShared({
     super.key,
@@ -15,7 +16,15 @@ class InputTextShared extends StatelessWidget {
     this.keyboardType,
     this.validator,
     this.icon,
+    this.action = false,
   });
+
+  @override
+  State<InputTextShared> createState() => _InputTextSharedState();
+}
+
+class _InputTextSharedState extends State<InputTextShared> {
+  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +34,13 @@ class InputTextShared extends StatelessWidget {
         elevation: 1,
         borderRadius: BorderRadius.circular(14),
         child: TextFormField(
-          controller: controller,
+          controller: widget.controller,
+          obscureText: widget.action ? _obscureText : false,
           decoration: InputDecoration(
-            prefixIcon: icon != null
-                ? Icon(icon, color: AppColors.brand['default'])
+            prefixIcon: widget.icon != null
+                ? Icon(widget.icon, color: AppColors.brand['default'])
                 : null,
-            labelText: label,
+            labelText: widget.label,
             labelStyle: TextStyle(
               color: AppColors.brand['default'],
               fontWeight: FontWeight.w500,
@@ -55,9 +65,22 @@ class InputTextShared extends StatelessWidget {
               borderSide: BorderSide(color: Colors.red[700]!, width: 2),
             ),
             contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 18),
+            suffixIcon: widget.action
+                ? IconButton(
+                    icon: Icon(
+                      _obscureText ? Icons.visibility_off : Icons.visibility,
+                      color: AppColors.brand['default'],
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                      });
+                    },
+                  )
+                : null,
           ),
-          keyboardType: keyboardType,
-          validator: validator,
+          keyboardType: widget.keyboardType,
+          validator: widget.validator,
         ),
       ),
     );

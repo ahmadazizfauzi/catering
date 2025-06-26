@@ -79,17 +79,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   const SizedBox(height: 30),
                   ListTile(
-                    leading: const Icon(
-                      Icons.restaurant_menu,
-                      color: Colors.blue,
-                    ),
-                    title: const Text("Program Meal Saya"),
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: () {
-                      // Navigasi ke halaman meal program
-                    },
-                  ),
-                  ListTile(
                     leading: const Icon(Icons.person, color: Colors.blue),
                     title: const Text("Profile Setting"),
                     trailing: const Icon(Icons.chevron_right),

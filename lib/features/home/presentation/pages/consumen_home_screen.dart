@@ -6,10 +6,10 @@ import '../widgets/section/greeting_home_section.dart';
 import '../widgets/section/service_home_section.dart';
 import '../widgets/section/contact_home_section.dart';
 
-class HomeScreen extends StatelessWidget {
+class ConsumenHomeScreen extends StatelessWidget {
   final VoidCallback? onMenuPressed;
 
-  const HomeScreen({super.key, this.onMenuPressed});
+  const ConsumenHomeScreen({super.key, this.onMenuPressed});
 
   @override
   Widget build(BuildContext context) {

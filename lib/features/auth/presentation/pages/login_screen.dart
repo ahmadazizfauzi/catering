@@ -118,6 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 16),
                     InputTextShared(
+                      action: true,
                       controller: _formManager.passwordController,
                       label: 'Password',
                       icon: Icons.lock,
@@ -132,6 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: _isLoading ? null : _submit,
                       text: 'Masuk',
                       isLoading: _isLoading,
+                      width: double.infinity,
                     ),
                     const SizedBox(height: 12),
                     TextButton(
