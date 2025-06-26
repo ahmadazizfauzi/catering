@@ -5,16 +5,23 @@ class ProfileModel {
   final String name;
   final String email;
   final String? photoUrl;
+  final String role; 
 
   ProfileModel({
     this.id,
     required this.name,
     required this.email,
     this.photoUrl,
+    this.role = 'consumen',
   });
 
   Map<String, dynamic> toMap() {
-    return {'name': name, 'email': email, 'photoUrl': photoUrl};
+    return {
+      'name': name,
+      'email': email,
+      'photoUrl': photoUrl,
+      'role': role, 
+    };
   }
 
   factory ProfileModel.fromMap(String id, Map<String, dynamic> map) {
@@ -23,6 +30,7 @@ class ProfileModel {
       name: map['name'] ?? '',
       email: map['email'] ?? '',
       photoUrl: map['photoUrl'],
+      role: map['role'] ?? 'consumen', 
     );
   }
 
@@ -32,10 +40,17 @@ class ProfileModel {
       name: entity.name,
       email: entity.email,
       photoUrl: entity.photoUrl,
+      role: entity.role, 
     );
   }
 
   Profile toEntity() {
-    return Profile(id: id, name: name, email: email, photoUrl: photoUrl);
+    return Profile(
+      id: id,
+      name: name,
+      email: email,
+      photoUrl: photoUrl,
+      role: role, 
+    );
   }
 }

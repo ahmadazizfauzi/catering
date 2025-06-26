@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catering_1/features/auth/presentation/provider/auth_provider.dart'
     as my_auth;
+import 'package:catering_1/features/profile/presentation/provider/profile_provider.dart';
 
 class AppDrawer extends StatelessWidget {
   final int selectedIndex;
@@ -74,6 +75,9 @@ class AppDrawer extends StatelessWidget {
   }
 
   Widget _buildUserProfile(BuildContext context) {
+    final profileProvider = Provider.of<ProfileProvider>(context, listen: true);
+    final role = profileProvider.profile?.role ?? 'consumen';
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 50, 20, 10),
       child: Column(
@@ -105,7 +109,7 @@ class AppDrawer extends StatelessWidget {
           ),
           const SizedBox(height: 5),
           Text(
-            'User Portal',
+            role == 'admin' ? 'Admin Portal' : 'User Portal',
             style: TextStyle(fontSize: 14, color: AppColors.black['default']),
           ),
         ],

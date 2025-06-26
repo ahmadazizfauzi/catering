@@ -5,12 +5,14 @@ class AuthModel {
   final String email;
   final String name;
   final String? token;
+  final String role; 
 
   AuthModel({
     this.id,
     required this.email,
     required this.name,
     this.token,
+    this.role = 'consumen',
   });
 
   factory AuthModel.fromEntity(Auth entity) {
@@ -19,6 +21,7 @@ class AuthModel {
       email: entity.email,
       name: entity.name,
       token: entity.token,
+      role: entity.role, 
     );
   }
 
@@ -28,6 +31,7 @@ class AuthModel {
       email: email,
       name: name,
       token: token,
+      role: role, 
     );
   }
 }

@@ -19,6 +19,7 @@ class AuthRemoteDatasource {
     await _userCollection.doc(userCredential.user!.uid).set({
       'email': authModel.email,
       'name': authModel.name,
+      'role': authModel.role,
     });
   }
 
@@ -36,6 +37,7 @@ class AuthRemoteDatasource {
       email: email,
       name: data?['name'] ?? '',
       token: await userCredential.user?.getIdToken(),
+      role: data?['role'] ?? 'consumen',
     );
   }
 

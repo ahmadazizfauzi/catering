@@ -2,10 +2,12 @@ import 'package:catering_1/core/shared/drawer/app_drawer.dart';
 import 'package:catering_1/features/contact/presentation/pages/contact_screen.dart';
 import 'package:catering_1/features/home/presentation/pages/home_screen.dart';
 import 'package:catering_1/features/menu/presentation/pages/menu_screen.dart';
+import 'package:catering_1/features/profile/presentation/provider/profile_provider.dart';
 import 'package:catering_1/features/subscription/presentation/pages/user/subscription_screen.dart';
 import 'package:catering_1/features/profile/presentation/pages/profile_screen.dart';
 import 'package:catering_1/features/subscription/presentation/pages/user/user_subscription_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MainContainer extends StatefulWidget {
   const MainContainer({super.key});
@@ -21,6 +23,14 @@ class _MainContainerState extends State<MainContainer> {
   void _onItemSelected(int index) {
     setState(() {
       _selectedIndex = index;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ProfileProvider>().fetchProfile();
     });
   }
 
@@ -58,11 +68,11 @@ class _MainContainerState extends State<MainContainer> {
         return ProfileScreen(
           onMenuPressed: () => _scaffoldKey.currentState?.openDrawer(),
         );
-              case 5:
+      case 5:
         return UserSubscriptionScreen(
           onMenuPressed: () => _scaffoldKey.currentState?.openDrawer(),
         );
-        
+
       default:
         return HomeScreen(
           onMenuPressed: () => _scaffoldKey.currentState?.openDrawer(),

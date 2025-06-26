@@ -39,6 +39,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         Auth(
           email: _formManager.emailController.text.trim(),
           name: _formManager.nameController.text.trim(),
+          role: 'consumen',
         ),
         _formManager.passwordController.text.trim(),
       );
