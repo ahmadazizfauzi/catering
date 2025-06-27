@@ -21,7 +21,10 @@ class AdminSubscriptionProvider extends ChangeNotifier {
   String? message;
   List<Subscription> allSubscriptions = [];
   List<Subscription> rangeSubscriptions = [];
-  int? totalSubscription;
+  int? totalAllSubscription;
+  int? totalActiveSubscription;
+  int? totalPauseSubscription;
+  int? totalCancelSubscription;
 
   Future<void> fetchAllSubscriptions() async {
     isLoading = true;
@@ -57,13 +60,39 @@ class AdminSubscriptionProvider extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
     try {
-      totalSubscription = await getAdminTotalSubscriptionUsecase(
+      totalAllSubscription = await getAdminTotalSubscriptionUsecase(
         status: status,
       );
       message = null;
     } catch (e) {
       message = "Failed to fetch total subscriptions: $e";
-      totalSubscription = null;
+      totalAllSubscription = null;
+    }
+    isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> fetchAllTotals() async {
+    isLoading = true;
+    notifyListeners();
+    try {
+      totalAllSubscription = await getAdminTotalSubscriptionUsecase();
+      totalActiveSubscription = await getAdminTotalSubscriptionUsecase(
+        status: "aktif",
+      );
+      totalPauseSubscription = await getAdminTotalSubscriptionUsecase(
+        status: "pause",
+      );
+      totalCancelSubscription = await getAdminTotalSubscriptionUsecase(
+        status: "cancel",
+      );
+      message = null;
+    } catch (e) {
+      message = "Failed to fetch total subscriptions: $e";
+      totalAllSubscription = null;
+      totalActiveSubscription = null;
+      totalPauseSubscription = null;
+      totalCancelSubscription = null;
     }
     isLoading = false;
     notifyListeners();

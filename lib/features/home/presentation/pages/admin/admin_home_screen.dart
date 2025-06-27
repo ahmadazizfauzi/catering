@@ -24,7 +24,6 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
     super.initState();
     Future.microtask(() async {
       final provider = Provider.of<AdminSubscriptionProvider>(
-        // ignore: use_build_context_synchronously
         context,
         listen: false,
       );
@@ -33,8 +32,8 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         final start = DateTime(today.year, today.month, today.day, 0, 0, 0);
         final end = DateTime(today.year, today.month, today.day, 23, 59, 59);
         await provider.fetchSubscriptionsByRange(start, end);
-        await provider.fetchTotalSubscription(status: "aktif");
       }
+      await provider.fetchAllTotals();
     });
   }
 

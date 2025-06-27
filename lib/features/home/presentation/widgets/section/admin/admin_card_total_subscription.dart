@@ -17,30 +17,24 @@ class AdminCardTotalSubscription extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 20,
-              horizontal: 24,
-            ),
-            child: Row(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(
-                  Icons.people_alt_rounded,
-                  color: Colors.white,
-                  size: 36,
-                ),
-                const SizedBox(width: 16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                // Total Subscriptions
+                Row(
                   children: [
+                    Icon(Icons.all_inbox_rounded, color: Colors.white, size: 32),
+                    const SizedBox(width: 12),
                     Text(
-                      "Active Subscriptions",
+                      "Total Subscriptions",
                       style: TextStyle(
                         color: Colors.white.withOpacity(0.85),
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const Spacer(),
                     provider.isLoading
                         ? SizedBox(
                             width: 24,
@@ -51,14 +45,40 @@ class AdminCardTotalSubscription extends StatelessWidget {
                             ),
                           )
                         : Text(
-                            "${provider.totalSubscription ?? 0}",
+                            "${provider.totalAllSubscription ?? 0}",
                             style: const TextStyle(
                               color: Colors.white,
-                              fontSize: 28,
+                              fontSize: 24,
                               fontWeight: FontWeight.bold,
-                              letterSpacing: 1.2,
                             ),
                           ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                // Active, Pause, Cancel
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _StatusCount(
+                      icon: Icons.check_circle_rounded,
+                      label: "Active",
+                      color: Colors.green[400]!,
+                      count: provider.totalActiveSubscription ?? 0,
+                    ),
+                    const SizedBox(width: 16),
+                    _StatusCount(
+                      icon: Icons.pause_circle_filled_rounded,
+                      label: "Pause",
+                      color: Colors.orange[400]!,
+                      count: provider.totalPauseSubscription ?? 0,
+                    ),
+                    const SizedBox(width: 16),
+                    _StatusCount(
+                      icon: Icons.cancel_rounded,
+                      label: "Cancel",
+                      color: Colors.red[400]!,
+                      count: provider.totalCancelSubscription ?? 0,
+                    ),
                   ],
                 ),
               ],
@@ -66,6 +86,46 @@ class AdminCardTotalSubscription extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _StatusCount extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final Color color;
+  final int count;
+
+  const _StatusCount({
+    required this.icon,
+    required this.label,
+    required this.color,
+    required this.count,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Icon(icon, color: color, size: 20),
+        const SizedBox(width: 4),
+        Text(
+          "$count",
+          style: TextStyle(
+            color: color,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+        ),
+        const SizedBox(width: 4),
+        Text(
+          label,
+          style: TextStyle(
+            color: Colors.white.withOpacity(0.85),
+            fontSize: 14,
+          ),
+        ),
+      ],
     );
   }
 }
