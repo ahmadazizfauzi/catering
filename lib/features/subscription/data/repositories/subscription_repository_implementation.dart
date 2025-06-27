@@ -36,4 +36,9 @@ class SubscriptionRepositoryImplementation implements SubscriptionRepository {
     final models = await remoteDatasource.getSubscriptionsByDateRange(start, end);
     return models.map((m) => m.toEntity()).toList();
   }
+
+  @override
+Future<double> getMonthlyRevenue(DateTime month) {
+  return remoteDatasource.getMonthlyRevenue(month: month);
+}
 }

@@ -6,4 +6,5 @@ abstract class SubscriptionRepository {
   Future<void> updateStatus(String id, String status);
   Future<List<Subscription>> getAllSubscriptions();
    Future<List<Subscription>> getSubscriptionsByDateRange(DateTime start, DateTime end);
+   Future<double> getMonthlyRevenue(DateTime month);
 }

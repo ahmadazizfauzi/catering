@@ -1,4 +1,5 @@
 // ignore: file_names
+import 'package:catering_1/features/subscription/domain/usecases/get_admin_mrr_subscription_usecase.dart';
 import 'package:flutter/material.dart';
 import '../../../domain/entities/subscription.dart';
 import '../../../domain/usecases/get_admin_subscription_growth_usecase.dart';
@@ -10,11 +11,13 @@ class AdminSubscriptionProvider extends ChangeNotifier {
   final GetAdminRangeSelectorSubscriptionUsecase
   getAdminRangeSelectorSubscriptionUsecase;
   final GetAdminTotalSubscriptionUsecase getAdminTotalSubscriptionUsecase;
+  final AdminGetMRRSubscriptionUsecase getAdminGetMRRSubscriptionUsecase;
 
   AdminSubscriptionProvider(
     this.getAdminSubscriptionGrowthUsecase,
     this.getAdminRangeSelectorSubscriptionUsecase,
     this.getAdminTotalSubscriptionUsecase,
+    this.getAdminGetMRRSubscriptionUsecase,
   );
 
   bool isLoading = false;
@@ -25,6 +28,7 @@ class AdminSubscriptionProvider extends ChangeNotifier {
   int? totalActiveSubscription;
   int? totalPauseSubscription;
   int? totalCancelSubscription;
+  double? monthlyRevenue;
 
   Future<void> fetchAllSubscriptions() async {
     isLoading = true;
@@ -93,6 +97,22 @@ class AdminSubscriptionProvider extends ChangeNotifier {
       totalActiveSubscription = null;
       totalPauseSubscription = null;
       totalCancelSubscription = null;
+    }
+    isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> fetchMonthlyRevenue() async {
+    isLoading = true;
+    notifyListeners();
+    try {
+      monthlyRevenue = await getAdminGetMRRSubscriptionUsecase();
+      print('DEBUG MRR: $monthlyRevenue'); // Tambahkan ini
+      message = null;
+    } catch (e) {
+      message = "Failed to fetch monthly revenue: $e";
+      monthlyRevenue = null;
+      print('DEBUG MRR ERROR: $e'); // Tambahkan ini
     }
     isLoading = false;
     notifyListeners();

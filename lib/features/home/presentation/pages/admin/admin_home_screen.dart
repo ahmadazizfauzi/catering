@@ -5,6 +5,7 @@ import 'package:catering_1/core/colors/app_colors.dart';
 import 'package:catering_1/core/shared/appbar/appbar_shared.dart';
 import 'package:catering_1/features/home/presentation/widgets/section/admin/admin_subscription_growth_section.dart';
 import 'package:catering_1/features/home/presentation/widgets/section/admin/admin_card_total_subscription.dart';
+import 'package:catering_1/features/home/presentation/widgets/section/admin/admin_card_total_mrr_subscription.dart';
 import 'package:provider/provider.dart';
 
 class AdminHomeScreen extends StatefulWidget {
@@ -34,6 +35,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         await provider.fetchSubscriptionsByRange(start, end);
       }
       await provider.fetchAllTotals();
+      await provider.fetchMonthlyRevenue();
     });
   }
 
@@ -70,7 +72,8 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
             const SizedBox(height: 16),
             const AdminCardTotalSubscription(),
             const SizedBox(height: 16),
-
+            const AdminCardTotalMRRSubscription(),
+            const SizedBox(height: 16),
             CalenderPickerShared(
               initialValue: _selectedDates,
               onDateSelected: (dates) async {

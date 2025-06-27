@@ -6,6 +6,7 @@ import 'package:catering_1/features/auth/domain/usecases/login_usecase.dart';
 import 'package:catering_1/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:catering_1/features/auth/domain/usecases/register_usecase.dart';
 import 'package:catering_1/features/auth/presentation/provider/auth_provider.dart';
+import 'package:catering_1/features/subscription/domain/usecases/get_admin_mrr_subscription_usecase.dart';
 import 'package:catering_1/features/subscription/domain/usecases/get_admin_range_selector_subscription.dart';
 import 'package:catering_1/features/subscription/domain/usecases/get_admin_total_subscription_usecase.dart';
 import 'package:catering_1/features/subscription/domain/usecases/get_user_subscription.dart';
@@ -111,6 +112,11 @@ void main() async {
                   ),
                 ),
                   GetAdminTotalSubscriptionUsecase(
+                  SubscriptionRepositoryImplementation(
+                    SubscriptionRemoteDatasource(),
+                  ),
+                ),
+                 AdminGetMRRSubscriptionUsecase(
                   SubscriptionRepositoryImplementation(
                     SubscriptionRemoteDatasource(),
                   ),

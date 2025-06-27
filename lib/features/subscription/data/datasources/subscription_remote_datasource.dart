@@ -59,4 +59,29 @@ class SubscriptionRemoteDatasource {
         .map((doc) => SubscriptionModel.fromMap(doc.id, doc.data()))
         .toList();
   }
+
+  Future<double> getMonthlyRevenue({required DateTime month}) async {
+    // Ambil tanggal awal dan akhir bulan
+    final start = DateTime(month.year, month.month, 1, 0, 0, 0);
+    final end = DateTime(month.year, month.month + 1, 0, 23, 59, 59);
+
+    final snapshot =
+        await _collection
+            .where(
+              'createdAt',
+              isGreaterThanOrEqualTo: Timestamp.fromDate(start),
+            )
+            .where('createdAt', isLessThanOrEqualTo: Timestamp.fromDate(end))
+            .where('status', isEqualTo: 'aktif')
+            .get();
+
+    double total = 0;
+    for (var doc in snapshot.docs) {
+      final data = doc.data();
+      if (data['totalPrice'] != null) {
+        total += (data['totalPrice'] as num).toDouble();
+      }
+    }
+    return total;
+  }
 }
