@@ -1,12 +1,40 @@
+import 'package:catering_1/core/shared/calender/calender_picker_shared.dart';
+import 'package:catering_1/features/subscription/presentation/provider/admin/admin_subscription_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:catering_1/core/colors/app_colors.dart';
 import 'package:catering_1/core/shared/appbar/appbar_shared.dart';
-import 'package:catering_1/core/routes/app_routes.dart';
+import 'package:catering_1/features/home/presentation/widgets/section/admin/admin_subscription_growth_section.dart';
+import 'package:provider/provider.dart';
 
-class AdminHomeScreen extends StatelessWidget {
+class AdminHomeScreen extends StatefulWidget {
   final VoidCallback? onMenuPressed;
 
   const AdminHomeScreen({super.key, this.onMenuPressed});
+
+  @override
+  State<AdminHomeScreen> createState() => _AdminHomeScreenState();
+}
+
+class _AdminHomeScreenState extends State<AdminHomeScreen> {
+  List<DateTime?> _selectedDates = [DateTime.now()];
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() async {
+      final provider = Provider.of<AdminSubscriptionProvider>(
+        // ignore: use_build_context_synchronously
+        context,
+        listen: false,
+      );
+      final today = _selectedDates[0];
+      if (today != null) {
+        final start = DateTime(today.year, today.month, today.day, 0, 0, 0);
+        final end = DateTime(today.year, today.month, today.day, 23, 59, 59);
+        await provider.fetchSubscriptionsByRange(start, end);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +42,10 @@ class AdminHomeScreen extends StatelessWidget {
       backgroundColor: AppColors.brand['background'],
       appBar: AppbarShared(
         leading:
-            onMenuPressed != null
+            widget.onMenuPressed != null
                 ? IconButton(
                   icon: Icon(Icons.menu, color: AppColors.white['default']),
-                  onPressed: onMenuPressed,
+                  onPressed: widget.onMenuPressed,
                 )
                 : null,
         icon: Icon(
@@ -39,63 +67,65 @@ class AdminHomeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(
+            CalenderPickerShared(
+              initialValue: _selectedDates,
+              onDateSelected: (dates) async {
+                setState(() {
+                  _selectedDates = dates;
+                });
+                final provider = Provider.of<AdminSubscriptionProvider>(
                   context,
-                ).pushNamed(AppRoutes.adminSubscriptionGrowth);
+                  listen: false,
+                );
+                if (dates.length >= 2 && dates[0] != null && dates[1] != null) {
+                  final start = DateTime(
+                    dates[0]!.year,
+                    dates[0]!.month,
+                    dates[0]!.day,
+                    0,
+                    0,
+                    0,
+                  );
+                  final end = DateTime(
+                    dates[1]!.year,
+                    dates[1]!.month,
+                    dates[1]!.day,
+                    23,
+                    59,
+                    59,
+                  );
+                  await provider.fetchSubscriptionsByRange(start, end);
+                } else if (dates.length == 1 && dates[0] != null) {
+                  final start = DateTime(
+                    dates[0]!.year,
+                    dates[0]!.month,
+                    dates[0]!.day,
+                    0,
+                    0,
+                    0,
+                  );
+                  final end = DateTime(
+                    dates[0]!.year,
+                    dates[0]!.month,
+                    dates[0]!.day,
+                    23,
+                    59,
+                    59,
+                  );
+                  await provider.fetchSubscriptionsByRange(start, end);
+                } else {
+                  await provider.fetchSubscriptionsByRange(
+                    DateTime(1900),
+                    DateTime(1900),
+                  );
+                }
               },
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(
-                  vertical: 28,
-                  horizontal: 20,
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.brand['default'], // Warna hijau utama
-                  borderRadius: BorderRadius.circular(18),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.brand['dark']!.withOpacity(0.08),
-                      blurRadius: 12,
-                      offset: Offset(0, 6),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.analytics, color: Colors.white, size: 38),
-                    const SizedBox(width: 18),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Laporan & Statistik',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          'Lihat statistik ',
-                          style: TextStyle(
-                            color: Colors.white.withOpacity(0.9),
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              width: double.infinity,
             ),
-            const SizedBox(height: 24),
-            Center(
-              child: Text(
-                'Selamat datang, Admin!',
-                style: TextStyle(fontSize: 16, color: AppColors.brand['text']),
+            const SizedBox(height: 16),
+            Expanded(
+              child: AdminSubscriptionGrowthSection(
+                isFiltered: true, 
               ),
             ),
           ],

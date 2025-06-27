@@ -6,6 +6,7 @@ import 'package:catering_1/features/auth/domain/usecases/login_usecase.dart';
 import 'package:catering_1/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:catering_1/features/auth/domain/usecases/register_usecase.dart';
 import 'package:catering_1/features/auth/presentation/provider/auth_provider.dart';
+import 'package:catering_1/features/subscription/domain/usecases/get_admin_range_selector_subscription.dart';
 import 'package:catering_1/features/subscription/domain/usecases/get_user_subscription.dart';
 import 'package:catering_1/features/subscription/domain/usecases/update_status_user_subscription_usecase.dart';
 import 'package:catering_1/features/testimonial/data/datasources/testimonial_remote_datasource.dart';
@@ -19,7 +20,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 
 // Tambahkan import berikut:
-import 'features/subscription/presentation/provider/subscription_provider.dart';
+import 'features/subscription/presentation/provider/consumen/consumen_subscription_provider.dart';
 import 'features/subscription/domain/usecases/save_subscription_usecase.dart';
 import 'features/subscription/data/repositories/subscription_repository_implementation.dart';
 import 'features/subscription/data/datasources/subscription_remote_datasource.dart';
@@ -27,6 +28,8 @@ import 'features/profile/presentation/provider/profile_provider.dart';
 import 'features/profile/domain/usecases/get_current_profile_usecase.dart';
 import 'features/profile/data/repositories/profile_repository_implementation.dart';
 import 'features/profile/data/datasources/profile_remote_datasource.dart';
+import 'features/subscription/presentation/provider/admin/admin_subscription_provider.dart';
+import 'features/subscription/domain/usecases/get_admin_subscription_growth_usecase.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +39,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(
           create:
-              (_) => SubscriptionProvider(
+              (_) => ConsumenSubscriptionProvider(
                 SaveSubscriptionUsecase(
                   SubscriptionRepositoryImplementation(
                     SubscriptionRemoteDatasource(),
@@ -90,6 +93,21 @@ void main() async {
               (_) => ProfileProvider(
                 GetCurrentProfileUsecase(
                   ProfileRepositoryImplementation(ProfileRemoteDatasource()),
+                ),
+              ),
+        ),
+        ChangeNotifierProvider(
+          create:
+              (_) => AdminSubscriptionProvider(
+                GetAdminSubscriptionGrowthUsecase(
+                  SubscriptionRepositoryImplementation(
+                    SubscriptionRemoteDatasource(),
+                  ),
+                ),
+                GetAdminRangeSelectorSubscriptionUsecase(
+                  SubscriptionRepositoryImplementation(
+                    SubscriptionRemoteDatasource(),
+                  ),
                 ),
               ),
         ),

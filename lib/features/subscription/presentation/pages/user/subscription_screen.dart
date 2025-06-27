@@ -12,7 +12,7 @@ import '../../widgets/section/form/form_plan_subscription_section.dart';
 import '../../widgets/section/form/form_meal_subscription_section.dart';
 import '../../widgets/section/form/form_delivery_subscription_section.dart';
 import '../../widgets/section/form/form_alergy_subscription_section.dart';
-import '../../provider/subscription_provider.dart';
+import '../../provider/consumen/consumen_subscription_provider.dart';
 import 'package:provider/provider.dart';
 
 class SubscriptionScreen extends StatefulWidget {
@@ -124,7 +124,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                 _formManager.isValid) {
                               setState(() => _isLoading = true);
                               final provider =
-                                  Provider.of<SubscriptionProvider>(
+                                  Provider.of<ConsumenSubscriptionProvider>(
                                     context,
                                     listen: false,
                                   );
@@ -139,6 +139,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                               if (provider.message?.contains("success") ==
                                   true) {
                                 showModalAlert(
+                                  // ignore: use_build_context_synchronously
                                   context: context,
                                   title: "Berhasil",
                                   content: "Subscription berhasil disimpan!",
@@ -162,6 +163,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                 );
                               } else if (provider.message != null) {
                                 showModalAlert(
+                                  // ignore: use_build_context_synchronously
                                   context: context,
                                   title: "Gagal",
                                   content: provider.message!,

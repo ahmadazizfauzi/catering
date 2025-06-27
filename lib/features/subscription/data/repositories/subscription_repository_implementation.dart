@@ -24,4 +24,16 @@ class SubscriptionRepositoryImplementation implements SubscriptionRepository {
   Future<void> updateStatus(String id, String status) {
     return remoteDatasource.updateStatus(id, status);
   }
+
+   @override
+  Future<List<Subscription>> getAllSubscriptions() async {
+    final models = await remoteDatasource.getAllSubscriptions();
+    return models.map((m) => m.toEntity()).toList();
+  }
+
+  @override
+  Future<List<Subscription>> getSubscriptionsByDateRange(DateTime start, DateTime end) async {
+    final models = await remoteDatasource.getSubscriptionsByDateRange(start, end);
+    return models.map((m) => m.toEntity()).toList();
+  }
 }

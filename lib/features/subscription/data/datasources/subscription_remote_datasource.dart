@@ -30,4 +30,33 @@ class SubscriptionRemoteDatasource {
   Future<void> updateStatus(String id, String status) async {
     await _collection.doc(id).update({'status': status});
   }
+
+  Future<List<SubscriptionModel>> getAllSubscriptions() async {
+    final snapshot = await _collection.get();
+    // ignore: unused_local_variable
+    for (var doc in snapshot.docs) {}
+    return snapshot.docs
+        .map((doc) => SubscriptionModel.fromMap(doc.id, doc.data()))
+        .toList();
+  }
+
+  Future<List<SubscriptionModel>> getSubscriptionsByDateRange(
+    DateTime start,
+    DateTime end,
+  ) async {
+    final snapshot =
+        await _collection
+            .where(
+              'createdAt',
+              isGreaterThanOrEqualTo: Timestamp.fromDate(start),
+            )
+            .where('createdAt', isLessThanOrEqualTo: Timestamp.fromDate(end))
+            .get();
+    for (var doc in snapshot.docs) {
+      doc.data();
+    }
+    return snapshot.docs
+        .map((doc) => SubscriptionModel.fromMap(doc.id, doc.data()))
+        .toList();
+  }
 }

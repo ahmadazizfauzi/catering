@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:catering_1/features/subscription/presentation/provider/subscription_provider.dart';
+import 'package:catering_1/features/subscription/presentation/provider/consumen/consumen_subscription_provider.dart';
 import 'package:catering_1/features/menu/presentation/widgets/component/card_menu_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:catering_1/features/subscription/presentation/widgets/section/filter/filter_user_subscription_section.dart';
@@ -22,17 +22,16 @@ class _UserSubscriptionScreenState extends State<UserSubscriptionScreen> {
   void initState() {
     super.initState();
     final userId = FirebaseAuth.instance.currentUser?.uid ?? '';
-    print('Current userId: $userId'); // Tambahkan print ini
     if (userId.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        context.read<SubscriptionProvider>().fetchUserSubscriptions(userId);
+        context.read<ConsumenSubscriptionProvider>().fetchUserSubscriptions(userId);
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.watch<SubscriptionProvider>();
+    final provider = context.watch<ConsumenSubscriptionProvider>();
     final subscriptions = provider.userSubscriptions;
     final filtered =
         subscriptions
@@ -85,7 +84,7 @@ class _UserSubscriptionScreenState extends State<UserSubscriptionScreen> {
                                 FirebaseAuth.instance.currentUser?.uid ?? '';
                             if (userId.isEmpty) return;
                             final provider =
-                                context.read<SubscriptionProvider>();
+                                context.read<ConsumenSubscriptionProvider>();
                             final newStatus =
                                 sub.status.toLowerCase() == 'aktif'
                                     ? 'pause'
@@ -101,7 +100,7 @@ class _UserSubscriptionScreenState extends State<UserSubscriptionScreen> {
                                 FirebaseAuth.instance.currentUser?.uid ?? '';
                             if (userId.isEmpty) return;
                             final provider =
-                                context.read<SubscriptionProvider>();
+                                context.read<ConsumenSubscriptionProvider>();
                             await provider.updateStatus(
                               sub.id!,
                               'cancel',
