@@ -26,13 +26,12 @@ class _CalenderPickerSharedState extends State<CalenderPickerShared> {
   @override
   void initState() {
     super.initState();
-    _selectedDates =
-        widget.initialValue.isNotEmpty ? widget.initialValue : [DateTime.now()];
+    _selectedDates = widget.initialValue; // Jangan isi dengan DateTime.now()
   }
 
   String _getDisplayText() {
     if (_selectedDates.isEmpty || _selectedDates.first == null) {
-      return 'Select Date';
+      return 'Enter date'; // Ganti placeholder di sini
     }
 
     if (_selectedDates.length == 1) {
@@ -81,7 +80,7 @@ class _CalenderPickerSharedState extends State<CalenderPickerShared> {
       dialogSize: const Size(325, 400),
       borderRadius: BorderRadius.circular(15),
       value: _selectedDates,
-      dialogBackgroundColor: AppColors.white['default'], 
+      dialogBackgroundColor: AppColors.white['default'],
     );
 
     if (values != null) {
@@ -126,7 +125,7 @@ class _CalenderPickerSharedState extends State<CalenderPickerShared> {
                   _getDisplayText(),
                   style: TextStyle(
                     fontSize: 16,
-                    color: AppColors.brand['dark'], 
+                    color: AppColors.brand['dark'],
                     fontWeight: FontWeight.bold,
                   ),
                   overflow: TextOverflow.ellipsis,

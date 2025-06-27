@@ -18,7 +18,7 @@ class AdminHomeScreen extends StatefulWidget {
 }
 
 class _AdminHomeScreenState extends State<AdminHomeScreen> {
-  List<DateTime?> _selectedDates = [DateTime.now()];
+  List<DateTime?> _selectedDates = []; // <-- kosong, bukan DateTime.now()
 
   @override
   void initState() {
@@ -28,14 +28,10 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         context,
         listen: false,
       );
-      final today = _selectedDates[0];
-      if (today != null) {
-        final start = DateTime(today.year, today.month, today.day, 0, 0, 0);
-        final end = DateTime(today.year, today.month, today.day, 23, 59, 59);
-        await provider.fetchSubscriptionsByRange(start, end);
-      }
+      // Tidak fetchSubscriptionsByRange di sini!
       await provider.fetchAllTotals();
       await provider.fetchMonthlyRevenue();
+      await provider.fetchAllSubscriptions();
     });
   }
 
@@ -75,7 +71,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
             const AdminCardTotalMRRSubscription(),
             const SizedBox(height: 16),
             CalenderPickerShared(
-              initialValue: _selectedDates,
+              initialValue: _selectedDates, // <-- tetap []
               onDateSelected: (dates) async {
                 setState(() {
                   _selectedDates = dates;
@@ -121,17 +117,19 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                   );
                   await provider.fetchSubscriptionsByRange(start, end);
                 } else {
-                  await provider.fetchSubscriptionsByRange(
-                    DateTime(1900),
-                    DateTime(1900),
-                  );
+                  await provider.fetchAllSubscriptions();
                 }
               },
               width: double.infinity,
             ),
             // Total Active Subscription Card
             const SizedBox(height: 16),
-            Expanded(child: AdminSubscriptionGrowthSection(isFiltered: true)),
+            Expanded(
+              child: AdminSubscriptionGrowthSection(
+                isFiltered:
+                    _selectedDates.isNotEmpty && _selectedDates.first != null,
+              ),
+            ),
           ],
         ),
       ),

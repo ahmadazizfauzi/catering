@@ -35,6 +35,7 @@ class AdminSubscriptionProvider extends ChangeNotifier {
     notifyListeners();
     try {
       allSubscriptions = await getAdminSubscriptionGrowthUsecase();
+      print('ALL SUBSCRIPTIONS: $allSubscriptions'); // Tambahkan ini
       message = null;
     } catch (e) {
       message = "Failed to fetch subscriptions: $e";
