@@ -29,6 +29,7 @@ class AdminCardTotalSubscription extends StatelessWidget {
                     Text(
                       "Total Subscriptions",
                       style: TextStyle(
+                        // ignore: deprecated_member_use
                         color: Colors.white.withOpacity(0.85),
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -121,6 +122,7 @@ class _StatusCount extends StatelessWidget {
         Text(
           label,
           style: TextStyle(
+            // ignore: deprecated_member_use
             color: Colors.white.withOpacity(0.85),
             fontSize: 14,
           ),

@@ -18,17 +18,18 @@ class AdminHomeScreen extends StatefulWidget {
 }
 
 class _AdminHomeScreenState extends State<AdminHomeScreen> {
-  List<DateTime?> _selectedDates = []; // <-- kosong, bukan DateTime.now()
+  List<DateTime?> _selectedDates = [];
 
   @override
   void initState() {
     super.initState();
     Future.microtask(() async {
       final provider = Provider.of<AdminSubscriptionProvider>(
+        // ignore: use_build_context_synchronously
         context,
         listen: false,
       );
-      // Tidak fetchSubscriptionsByRange di sini!
+
       await provider.fetchAllTotals();
       await provider.fetchMonthlyRevenue();
       await provider.fetchAllSubscriptions();
@@ -54,83 +55,75 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Admin Portal',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: AppColors.brand['dark'],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const AdminCardTotalSubscription(),
+              const SizedBox(height: 16),
+              const AdminCardTotalMRRSubscription(),
+              const SizedBox(height: 16),
+              CalenderPickerShared(
+                initialValue: _selectedDates,
+                onDateSelected: (dates) async {
+                  setState(() {
+                    _selectedDates = dates;
+                  });
+                  final provider = Provider.of<AdminSubscriptionProvider>(
+                    context,
+                    listen: false,
+                  );
+                  if (dates.length >= 2 &&
+                      dates[0] != null &&
+                      dates[1] != null) {
+                    final start = DateTime(
+                      dates[0]!.year,
+                      dates[0]!.month,
+                      dates[0]!.day,
+                      0,
+                      0,
+                      0,
+                    );
+                    final end = DateTime(
+                      dates[1]!.year,
+                      dates[1]!.month,
+                      dates[1]!.day,
+                      23,
+                      59,
+                      59,
+                    );
+                    await provider.fetchSubscriptionsByRange(start, end);
+                  } else if (dates.length == 1 && dates[0] != null) {
+                    final start = DateTime(
+                      dates[0]!.year,
+                      dates[0]!.month,
+                      dates[0]!.day,
+                      0,
+                      0,
+                      0,
+                    );
+                    final end = DateTime(
+                      dates[0]!.year,
+                      dates[0]!.month,
+                      dates[0]!.day,
+                      23,
+                      59,
+                      59,
+                    );
+                    await provider.fetchSubscriptionsByRange(start, end);
+                  } else {
+                    await provider.fetchAllSubscriptions();
+                  }
+                },
+                width: double.infinity,
               ),
-            ),
-            const SizedBox(height: 16),
-            const AdminCardTotalSubscription(),
-            const SizedBox(height: 16),
-            const AdminCardTotalMRRSubscription(),
-            const SizedBox(height: 16),
-            CalenderPickerShared(
-              initialValue: _selectedDates, // <-- tetap []
-              onDateSelected: (dates) async {
-                setState(() {
-                  _selectedDates = dates;
-                });
-                final provider = Provider.of<AdminSubscriptionProvider>(
-                  context,
-                  listen: false,
-                );
-                if (dates.length >= 2 && dates[0] != null && dates[1] != null) {
-                  final start = DateTime(
-                    dates[0]!.year,
-                    dates[0]!.month,
-                    dates[0]!.day,
-                    0,
-                    0,
-                    0,
-                  );
-                  final end = DateTime(
-                    dates[1]!.year,
-                    dates[1]!.month,
-                    dates[1]!.day,
-                    23,
-                    59,
-                    59,
-                  );
-                  await provider.fetchSubscriptionsByRange(start, end);
-                } else if (dates.length == 1 && dates[0] != null) {
-                  final start = DateTime(
-                    dates[0]!.year,
-                    dates[0]!.month,
-                    dates[0]!.day,
-                    0,
-                    0,
-                    0,
-                  );
-                  final end = DateTime(
-                    dates[0]!.year,
-                    dates[0]!.month,
-                    dates[0]!.day,
-                    23,
-                    59,
-                    59,
-                  );
-                  await provider.fetchSubscriptionsByRange(start, end);
-                } else {
-                  await provider.fetchAllSubscriptions();
-                }
-              },
-              width: double.infinity,
-            ),
-            // Total Active Subscription Card
-            const SizedBox(height: 16),
-            Expanded(
-              child: AdminSubscriptionGrowthSection(
+              const SizedBox(height: 16),
+              AdminSubscriptionGrowthSection(
                 isFiltered:
                     _selectedDates.isNotEmpty && _selectedDates.first != null,
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

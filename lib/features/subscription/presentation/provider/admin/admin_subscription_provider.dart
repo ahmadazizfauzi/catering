@@ -35,7 +35,6 @@ class AdminSubscriptionProvider extends ChangeNotifier {
     notifyListeners();
     try {
       allSubscriptions = await getAdminSubscriptionGrowthUsecase();
-      print('ALL SUBSCRIPTIONS: $allSubscriptions'); // Tambahkan ini
       message = null;
     } catch (e) {
       message = "Failed to fetch subscriptions: $e";
@@ -108,12 +107,10 @@ class AdminSubscriptionProvider extends ChangeNotifier {
     notifyListeners();
     try {
       monthlyRevenue = await getAdminGetMRRSubscriptionUsecase();
-      print('DEBUG MRR: $monthlyRevenue'); // Tambahkan ini
       message = null;
     } catch (e) {
       message = "Failed to fetch monthly revenue: $e";
       monthlyRevenue = null;
-      print('DEBUG MRR ERROR: $e'); // Tambahkan ini
     }
     isLoading = false;
     notifyListeners();

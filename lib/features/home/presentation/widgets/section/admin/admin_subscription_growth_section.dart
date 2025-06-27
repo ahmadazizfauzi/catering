@@ -34,6 +34,8 @@ class _AdminSubscriptionGrowthSectionState
           return const Center(child: Text("Belum ada subscription aktif."));
         }
         return ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.all(0),
           itemCount: data.length,
           itemBuilder: (context, i) {

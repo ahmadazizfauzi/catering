@@ -35,6 +35,7 @@ class AdminCardTotalMRRSubscription extends StatelessWidget {
                     Text(
                       "Total Income This Month",
                       style: TextStyle(
+                        // ignore: deprecated_member_use
                         color: Colors.white.withOpacity(0.85),
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
