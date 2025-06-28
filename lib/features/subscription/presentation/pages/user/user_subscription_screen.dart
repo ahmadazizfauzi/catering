@@ -54,9 +54,13 @@ class _UserSubscriptionScreenState extends State<UserSubscriptionScreen> {
       body: Column(
         children: [
           const SizedBox(height: 12),
-          FilterUserSubscriptionSection(
-            selectedIndex: _selectedTab,
-            onChanged: (i) => setState(() => _selectedTab = i),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: FilterUserSubscriptionSection(
+              mainAxisAlignment: MainAxisAlignment.start,
+              selectedIndex: _selectedTab,
+              onChanged: (i) => setState(() => _selectedTab = i),
+            ),
           ),
           const SizedBox(height: 12),
           Expanded(

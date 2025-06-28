@@ -180,7 +180,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             'Already have an account? Login',
                             style: TextStyle(
                               fontSize: 14,
-                              color: AppColors.brand['accent'],
+                              color: AppColors.brand['default'],
                               fontWeight: FontWeight.w500,
                             ),
                           ),

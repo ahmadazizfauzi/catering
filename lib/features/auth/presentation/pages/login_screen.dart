@@ -151,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             "Don't have an account? Register",
                             style: TextStyle(
                               fontSize: 14,
-                              color: AppColors.brand['accent'],
+                              color: AppColors.brand['default'],
                               fontWeight: FontWeight.w500,
                             ),
                           ),
