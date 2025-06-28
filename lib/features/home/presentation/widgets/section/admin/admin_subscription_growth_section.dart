@@ -7,7 +7,12 @@ import 'package:intl/intl.dart';
 
 class AdminSubscriptionGrowthSection extends StatefulWidget {
   final bool isFiltered;
-  const AdminSubscriptionGrowthSection({super.key, this.isFiltered = false});
+  final String filterStatus;
+  const AdminSubscriptionGrowthSection({
+    super.key,
+    this.isFiltered = false,
+    this.filterStatus = 'all',
+  });
 
   @override
   State<AdminSubscriptionGrowthSection> createState() =>
@@ -33,22 +38,31 @@ class _AdminSubscriptionGrowthSectionState
                 ? provider.rangeSubscriptions
                 : provider.allSubscriptions;
 
-        data.sort((a, b) {
+        final filteredData =
+            widget.filterStatus == 'all'
+                ? data
+                : data
+                    .where(
+                      (sub) => sub.status.toLowerCase() == widget.filterStatus,
+                    )
+                    .toList();
+
+        filteredData.sort((a, b) {
           if (a.createdAt == null && b.createdAt == null) return 0;
           if (a.createdAt == null) return 1;
           if (b.createdAt == null) return -1;
           return b.createdAt!.compareTo(a.createdAt!);
         });
-        if (data.isEmpty) {
+        if (filteredData.isEmpty) {
           return const Center(child: Text("Belum ada subscription aktif."));
         }
         return ListView.builder(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.all(0),
-          itemCount: data.length,
+          itemCount: filteredData.length,
           itemBuilder: (context, i) {
-            final sub = data[i];
+            final sub = filteredData[i];
             return Container(
               margin: const EdgeInsets.only(bottom: 16),
               decoration: BoxDecoration(

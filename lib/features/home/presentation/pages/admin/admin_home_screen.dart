@@ -6,6 +6,7 @@ import 'package:catering_1/core/shared/appbar/appbar_shared.dart';
 import 'package:catering_1/features/home/presentation/widgets/section/admin/admin_subscription_growth_section.dart';
 import 'package:catering_1/features/home/presentation/widgets/section/admin/admin_card_total_subscription.dart';
 import 'package:catering_1/features/home/presentation/widgets/section/admin/admin_card_total_mrr_subscription.dart';
+import 'package:catering_1/features/subscription/presentation/widgets/section/filter/filter_user_subscription_section.dart';
 import 'package:provider/provider.dart';
 
 class AdminHomeScreen extends StatefulWidget {
@@ -19,6 +20,8 @@ class AdminHomeScreen extends StatefulWidget {
 
 class _AdminHomeScreenState extends State<AdminHomeScreen> {
   List<DateTime?> _selectedDates = [];
+  int _selectedTab = 0;
+  final List<String> _tabStatus = ['all', 'aktif', 'pause', 'cancel'];
 
   @override
   void initState() {
@@ -117,10 +120,17 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                 },
                 width: double.infinity,
               ),
+              const SizedBox(height: 12),
+              FilterUserSubscriptionSection(
+                selectedIndex: _selectedTab,
+                onChanged: (i) => setState(() => _selectedTab = i),
+                tabs: const ['All', 'Aktif', 'Pause', 'Cancel'],
+              ),
               const SizedBox(height: 16),
               AdminSubscriptionGrowthSection(
                 isFiltered:
                     _selectedDates.isNotEmpty && _selectedDates.first != null,
+                filterStatus: _tabStatus[_selectedTab],
               ),
             ],
           ),
