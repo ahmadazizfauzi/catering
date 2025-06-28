@@ -9,6 +9,7 @@ class Subscription {
   final List<String> deliveryDays;
   final double totalPrice;
   final String status;
+  final DateTime? createdAt;
 
   Subscription({
     this.id,
@@ -21,5 +22,6 @@ class Subscription {
     required this.deliveryDays,
     required this.totalPrice,
     this.status = 'aktif',
+    this.createdAt, 
   });
 }

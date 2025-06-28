@@ -12,6 +12,7 @@ class SubscriptionModel {
   final List<String> deliveryDays;
   final double totalPrice;
   final String status;
+  final DateTime? createdAt; 
 
   SubscriptionModel({
     this.id,
@@ -23,7 +24,8 @@ class SubscriptionModel {
     required this.mealTypes,
     required this.deliveryDays,
     required this.totalPrice,
-    this.status = 'aktif', // Default: aktif
+    this.status = 'aktif',
+    this.createdAt,
   });
 
   Map<String, dynamic> toMap() {
@@ -37,7 +39,7 @@ class SubscriptionModel {
       'deliveryDays': deliveryDays,
       'totalPrice': totalPrice,
       'status': status,
-      'createdAt': FieldValue.serverTimestamp(),
+      'createdAt': createdAt, // Biarkan Firestore handle jika null
     };
   }
 
@@ -53,6 +55,12 @@ class SubscriptionModel {
       deliveryDays: List<String>.from(map['deliveryDays'] ?? []),
       totalPrice: (map['totalPrice'] ?? 0).toDouble(),
       status: map['status'] ?? 'aktif',
+      createdAt:
+          map['createdAt'] != null
+              ? (map['createdAt'] is DateTime
+                  ? map['createdAt']
+                  : (map['createdAt'] as Timestamp).toDate())
+              : null,
     );
   }
 
@@ -69,6 +77,7 @@ class SubscriptionModel {
       deliveryDays: entity.deliveryDays,
       totalPrice: entity.totalPrice,
       status: entity.status,
+      createdAt: entity.createdAt,
     );
   }
 
@@ -85,6 +94,7 @@ class SubscriptionModel {
       deliveryDays: deliveryDays,
       totalPrice: totalPrice,
       status: status,
+      createdAt: createdAt,
     );
   }
 }

@@ -30,6 +30,13 @@ class _AdminSubscriptionGrowthSectionState
             widget.isFiltered
                 ? provider.rangeSubscriptions
                 : provider.allSubscriptions;
+
+        data.sort((a, b) {
+          if (a.createdAt == null && b.createdAt == null) return 0;
+          if (a.createdAt == null) return 1;
+          if (b.createdAt == null) return -1;
+          return b.createdAt!.compareTo(a.createdAt!);
+        });
         if (data.isEmpty) {
           return const Center(child: Text("Belum ada subscription aktif."));
         }
@@ -183,6 +190,21 @@ class _AdminSubscriptionGrowthSectionState
                         ),
                       ],
                     ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.calendar_month,
+                          size: 16,
+                          color: AppColors.brand['default'],
+                        ),
+                        const SizedBox(width: 12),
+                        Text(
+                          "Created at: ${sub.createdAt != null ? _formatDate(sub.createdAt) : '-'}",
+                          style: TextStyle(fontSize: 13),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -202,5 +224,30 @@ class _AdminSubscriptionGrowthSectionState
       default:
         return Colors.red;
     }
+  }
+
+  String _formatDate(DateTime? date) {
+    if (date == null) return '-';
+    final months = [
+      '',
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    final month = months[date.month];
+    final day = date.day.toString().padLeft(2, '0');
+    final year = date.year;
+    final hour = date.hour.toString().padLeft(2, '0');
+    final minute = date.minute.toString().padLeft(2, '0');
+    return "$month $day $year, $hour:$minute";
   }
 }

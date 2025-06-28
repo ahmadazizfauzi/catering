@@ -11,13 +11,12 @@ class SubscriptionFormManager {
   final List<String> mealTypes = [];
   final List<String> deliveryDays = [];
 
-  String status = 'aktif'; // Tambahkan ini, default 'aktif'
+  String status = 'aktif';
 
   double get totalPrice {
     if (selectedPlan == null || mealTypes.isEmpty || deliveryDays.isEmpty) {
       return 0;
     }
-    // Ganti dengan cara ambil harga plan sesuai kebutuhanmu
     final planPrice = plans[selectedPlan]!;
     return planPrice * mealTypes.length * deliveryDays.length * 4.3;
   }
@@ -40,7 +39,7 @@ class SubscriptionFormManager {
       mealTypes: List<String>.from(mealTypes),
       deliveryDays: List<String>.from(deliveryDays),
       totalPrice: totalPrice,
-      status: status, // Tambahkan ini
+      status: status,
     );
   }
 
