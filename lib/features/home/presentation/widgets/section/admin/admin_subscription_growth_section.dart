@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catering_1/features/subscription/presentation/provider/admin/admin_subscription_provider.dart';
 import 'package:catering_1/core/colors/app_colors.dart';
+// ignore: depend_on_referenced_packages
+import 'package:intl/intl.dart';
 
 class AdminSubscriptionGrowthSection extends StatefulWidget {
   final bool isFiltered;
@@ -162,7 +164,7 @@ class _AdminSubscriptionGrowthSectionState
                         ),
                         const SizedBox(width: 6),
                         Text(
-                          "Total: Rp${sub.totalPrice.toString()}",
+                          "Total: ${NumberFormat.currency(locale: 'id', symbol: 'Rp', decimalDigits: 0).format(sub.totalPrice)}",
                           style: TextStyle(fontSize: 13),
                         ),
                       ],

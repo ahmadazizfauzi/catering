@@ -21,10 +21,13 @@ class AdminCardTotalSubscription extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Total Subscriptions
                 Row(
                   children: [
-                    Icon(Icons.all_inbox_rounded, color: Colors.white, size: 32),
+                    Icon(
+                      Icons.all_inbox_rounded,
+                      color: Colors.white,
+                      size: 32,
+                    ),
                     const SizedBox(width: 12),
                     Text(
                       "Total Subscriptions",
@@ -38,25 +41,24 @@ class AdminCardTotalSubscription extends StatelessWidget {
                     const Spacer(),
                     provider.isLoading
                         ? SizedBox(
-                            width: 24,
-                            height: 24,
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 2,
-                            ),
-                          )
-                        : Text(
-                            "${provider.totalAllSubscription ?? 0}",
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
                           ),
+                        )
+                        : Text(
+                          "${provider.totalAllSubscription ?? 0}",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                   ],
                 ),
                 const SizedBox(height: 16),
-                // Active, Pause, Cancel
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

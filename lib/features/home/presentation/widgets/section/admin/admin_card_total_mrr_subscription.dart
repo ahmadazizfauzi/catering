@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catering_1/core/colors/app_colors.dart';
 import 'package:catering_1/features/subscription/presentation/provider/admin/admin_subscription_provider.dart';
+// ignore: depend_on_referenced_packages
+import 'package:intl/intl.dart';
 
 class AdminCardTotalMRRSubscription extends StatelessWidget {
   const AdminCardTotalMRRSubscription({super.key});
@@ -17,17 +19,10 @@ class AdminCardTotalMRRSubscription extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 20,
-              horizontal: 24,
-            ),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
             child: Row(
               children: [
-                Icon(
-                  Icons.attach_money_rounded,
-                  color: Colors.white,
-                  size: 36,
-                ),
+                Icon(Icons.attach_money_rounded, color: Colors.white, size: 36),
                 const SizedBox(width: 16),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,22 +39,26 @@ class AdminCardTotalMRRSubscription extends StatelessWidget {
                     const SizedBox(height: 4),
                     provider.isLoading
                         ? SizedBox(
-                            width: 24,
-                            height: 24,
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 2,
-                            ),
-                          )
-                        : Text(
-                            "Rp${provider.monthlyRevenue?.toStringAsFixed(0) ?? '0'}",
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.2,
-                            ),
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
                           ),
+                        )
+                        : Text(
+                          NumberFormat.currency(
+                            locale: 'id',
+                            symbol: 'Rp',
+                            decimalDigits: 0,
+                          ).format(provider.monthlyRevenue ?? 0),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.2,
+                          ),
+                        ),
                   ],
                 ),
               ],

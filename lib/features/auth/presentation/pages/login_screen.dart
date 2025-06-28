@@ -43,6 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (authProvider.message?.contains("berhasil") == true) {
         showModalAlert(
+          // ignore: use_build_context_synchronously
           context: context,
           title: "Login Success",
           content: "Welcome back!",
@@ -55,6 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       } else if (authProvider.message != null) {
         showModalAlert(
+          // ignore: use_build_context_synchronously
           context: context,
           title: "Login Failed",
           content: authProvider.message!,
