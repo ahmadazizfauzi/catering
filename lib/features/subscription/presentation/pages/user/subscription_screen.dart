@@ -141,8 +141,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                 showModalAlert(
                                   // ignore: use_build_context_synchronously
                                   context: context,
-                                  title: "Berhasil",
-                                  content: "Subscription berhasil disimpan!",
+                                  title: "Success",
+                                  content: "Subscription has been saved successfully!",
                                   status: "success",
                                   buttonText: "OK",
                                   onClose: () {
@@ -150,7 +150,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                       context,
                                       rootNavigator: true,
                                     ).pop();
-                                    // Setelah modal tertutup, reset form
+                                    // After modal is closed, reset form
                                     _formKey.currentState?.reset();
                                     _formManager.nameController.clear();
                                     _formManager.phoneController.clear();
@@ -165,7 +165,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                 showModalAlert(
                                   // ignore: use_build_context_synchronously
                                   context: context,
-                                  title: "Gagal",
+                                  title: "Failed",
                                   content: provider.message!,
                                   status: "failed",
                                   buttonText: "OK",

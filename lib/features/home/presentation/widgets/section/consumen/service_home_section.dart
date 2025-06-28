@@ -8,27 +8,27 @@ class ServiceHomeSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
+      children: [
         Text(
-          'Layanan Unggulan Kami:',
+          'Our Featured Services:',
           style: TextStyle(
             fontSize: 19,
             fontWeight: FontWeight.bold,
-            color: Color(0xFF1976D2),
+            color: AppColors.brand['default'],
           ),
         ),
         SizedBox(height: 14),
         FeatureItem(
           icon: Icons.restaurant_menu,
-          text: 'Kustomisasi menu sesuai kebutuhan nutrisi Anda',
+          text: 'Customize your menu to fit your nutritional needs',
         ),
         FeatureItem(
           icon: Icons.delivery_dining,
-          text: 'Pengantaran ke kota-kota besar di Indonesia',
+          text: 'Delivery to major cities across Indonesia',
         ),
         FeatureItem(
           icon: Icons.info_outline,
-          text: 'Informasi nutrisi lengkap di setiap menu',
+          text: 'Complete nutrition information for every menu',
         ),
       ],
     );

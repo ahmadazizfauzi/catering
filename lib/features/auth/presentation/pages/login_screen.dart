@@ -43,22 +43,20 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (authProvider.message?.contains("berhasil") == true) {
         showModalAlert(
-          // ignore: use_build_context_synchronously
           context: context,
-          title: "Login Berhasil",
-          content: "Selamat datang kembali!",
+          title: "Login Success",
+          content: "Welcome back!",
           buttonText: "OK",
           status: "success",
           onClose: () {
             Navigator.of(context).pop();
-            Navigator.pushReplacementNamed(context, '/main'); 
+            Navigator.pushReplacementNamed(context, '/main');
           },
         );
       } else if (authProvider.message != null) {
         showModalAlert(
-          // ignore: use_build_context_synchronously
           context: context,
-          title: "Login Gagal",
+          title: "Login Failed",
           content: authProvider.message!,
           buttonText: "OK",
           status: "failed",
@@ -74,79 +72,92 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.brand['background'],
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
-          child: Card(
-            elevation: 8,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
-            ),
-            color: AppColors.brand['light'],
-            child: Padding(
-              padding: const EdgeInsets.all(28.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 32),
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: AppColors.brand['light'],
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
                       Icons.lock_open,
-                      size: 64,
+                      size: 48,
                       color: AppColors.brand['default'],
                     ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'Masuk',
-                      style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.brand['dark'],
-                      ),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Login',
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.brand['dark'],
                     ),
-                    const SizedBox(height: 24),
-                    InputTextShared(
-                      controller: _formManager.emailController,
-                      label: 'Email',
-                      icon: Icons.email,
-                      keyboardType: TextInputType.emailAddress,
-                      validator:
-                          (v) =>
-                              v == null || !v.contains('@')
-                                  ? 'Email tidak valid'
-                                  : null,
+                  ),
+                  const SizedBox(height: 24),
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        InputTextShared(
+                          controller: _formManager.emailController,
+                          label: 'Email',
+                          icon: Icons.email,
+                          keyboardType: TextInputType.emailAddress,
+                          validator:
+                              (v) =>
+                                  v == null || !v.contains('@')
+                                      ? 'Invalid email'
+                                      : null,
+                        ),
+                        const SizedBox(height: 16),
+                        InputTextShared(
+                          action: true,
+                          controller: _formManager.passwordController,
+                          label: 'Password',
+                          icon: Icons.lock,
+                          validator:
+                              (v) =>
+                                  v == null || v.length < 6
+                                      ? 'Minimum 6 characters'
+                                      : null,
+                        ),
+                        const SizedBox(height: 24),
+                        ButtonShared(
+                          width: double.infinity,
+                          onPressed: _isLoading ? null : _submit,
+                          text: 'Login',
+                          isLoading: _isLoading,
+                        ),
+                        const SizedBox(height: 16),
+                        GestureDetector(
+                          onTap:
+                              () => Navigator.of(
+                                context,
+                              ).pushReplacementNamed('/register'),
+                          child: Text(
+                            "Don't have an account? Register",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: AppColors.brand['accent'],
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 16),
-                    InputTextShared(
-                      action: true,
-                      controller: _formManager.passwordController,
-                      label: 'Password',
-                      icon: Icons.lock,
-                      validator:
-                          (v) =>
-                              v == null || v.length < 6
-                                  ? 'Minimal 6 karakter'
-                                  : null,
-                    ),
-                    const SizedBox(height: 28),
-                    ButtonShared(
-                      onPressed: _isLoading ? null : _submit,
-                      text: 'Masuk',
-                      isLoading: _isLoading,
-                      width: double.infinity,
-                    ),
-                    const SizedBox(height: 12),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pushReplacementNamed('/register');
-                      },
-                      child: Text(
-                        'Belum punya akun? Daftar',
-                        style: TextStyle(color: AppColors.brand['accent']),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

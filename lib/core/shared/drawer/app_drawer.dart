@@ -51,14 +51,14 @@ class AppDrawer extends StatelessWidget {
             _buildDrawerItem(
               context,
               icon: Icons.contact_mail,
-              title: 'Contact Perusahaan',
+              title: 'Contact Us',
               index: 3,
             ),
           ],
           _buildDrawerItem(
             context,
             icon: Icons.person,
-            title: 'Profile saya',
+            title: 'My Profile',
             index: 4,
           ),
           if (role != 'admin')

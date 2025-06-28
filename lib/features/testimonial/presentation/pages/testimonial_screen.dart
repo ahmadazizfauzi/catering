@@ -27,7 +27,7 @@ class _TestimonialScreenState extends State<TestimonialScreen> {
     final provider = Provider.of<TestimonialProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Tentang Kami')),
+      appBar: AppBar(title: const Text('Our Testimonials')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -42,7 +42,7 @@ class _TestimonialScreenState extends State<TestimonialScreen> {
                     showModalAlert(
                       // ignore: use_build_context_synchronously
                       context: context,
-                      title: "Terima Kasih!",
+                      title: "Thank You!",
                       content: provider.message!,
                       status: "success",
                       buttonText: "OK",

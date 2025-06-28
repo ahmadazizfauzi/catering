@@ -35,7 +35,7 @@ class FormTestimonialSectionState extends State<FormTestimonialSection> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Tulis Testimoni',
+                'Write a Testimonial',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
@@ -45,18 +45,18 @@ class FormTestimonialSectionState extends State<FormTestimonialSection> {
               const SizedBox(height: 16),
               TextFormField(
                 controller: formManager.nameController,
-                decoration: const InputDecoration(labelText: 'Nama'),
+                decoration: const InputDecoration(labelText: 'Name'),
                 validator:
-                    (v) => (v == null || v.isEmpty) ? 'Nama wajib diisi' : null,
+                    (v) => (v == null || v.isEmpty) ? 'Name is required' : null,
               ),
               const SizedBox(height: 12),
               TextFormField(
                 controller: formManager.messageController,
-                decoration: const InputDecoration(labelText: 'Pesan'),
+                decoration: const InputDecoration(labelText: 'Message'),
                 maxLines: 1,
                 validator:
                     (v) =>
-                        (v == null || v.isEmpty) ? 'Pesan wajib diisi' : null,
+                        (v == null || v.isEmpty) ? 'Message is required' : null,
               ),
               const SizedBox(height: 12),
               Row(
@@ -94,8 +94,8 @@ class FormTestimonialSectionState extends State<FormTestimonialSection> {
                       if (widget.onSubmit != null) widget.onSubmit!();
                       showModalAlert(
                         context: context,
-                        title: "Testimoni Terkirim",
-                        content: "Terima kasih atas testimoni Anda!",
+                        title: "Testimonial Sent",
+                        content: "Thank you for your testimonial!",
                         status: "success",
                         buttonText: "OK",
                         onClose: () {
@@ -107,7 +107,7 @@ class FormTestimonialSectionState extends State<FormTestimonialSection> {
                       setState(() => formManager.rating = 5);
                     }
                   },
-                  child: const Text('Kirim'),
+                  child: const Text('Submit'),
                 ),
               ),
             ],

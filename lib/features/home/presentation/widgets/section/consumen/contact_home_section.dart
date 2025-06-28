@@ -10,7 +10,7 @@ class ContactHomeSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Hubungi Kami',
+          'Contact Us',
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,

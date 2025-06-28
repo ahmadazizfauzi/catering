@@ -22,7 +22,7 @@ class GreetingHomeSection extends StatelessWidget {
           const SizedBox(width: 16),
           Expanded(
             child: Text(
-              'Selamat datang di SEA Catering!\n\nSEA Catering adalah layanan katering sehat yang dapat disesuaikan sesuai kebutuhan Anda, dengan pengantaran ke seluruh Indonesia. Nikmati makanan sehat, lezat, dan praktis kapan saja, di mana saja!',
+              'Welcome to SEA Catering!\n\nSEA Catering is a healthy catering service that can be customized to your needs, with delivery throughout Indonesia. Enjoy healthy, delicious, and practical meals anytime, anywhere!',
               style: TextStyle(
                 fontSize: 16,
                 color: AppColors.brand['text'],

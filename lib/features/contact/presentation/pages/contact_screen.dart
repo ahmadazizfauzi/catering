@@ -133,7 +133,7 @@ class ContactScreen extends StatelessWidget {
                         size: 26,
                       ),
                       label: const Text(
-                        "Beri Kami Rating",
+                        "Give us a Rating",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,

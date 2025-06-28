@@ -98,6 +98,7 @@ class _AdminSubscriptionGrowthSectionState
                     ),
                     const SizedBox(height: 8),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Icon(
                           Icons.calendar_today,
@@ -105,9 +106,12 @@ class _AdminSubscriptionGrowthSectionState
                           color: AppColors.brand['default'],
                         ),
                         const SizedBox(width: 6),
-                        Text(
-                          "Delivery: ${sub.deliveryDays.join(', ')}",
-                          style: TextStyle(fontSize: 13),
+                        Expanded(
+                          child: Text(
+                            "Delivery: ${sub.deliveryDays.join(', ')}",
+                            style: TextStyle(fontSize: 13),
+                            softWrap: true,
+                          ),
                         ),
                       ],
                     ),

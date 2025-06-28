@@ -50,8 +50,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         showModalAlert(
           // ignore: use_build_context_synchronously
           context: context,
-          title: "Registrasi Berhasil",
-          content: "Akun kamu berhasil dibuat!",
+          title: "Success Registered",
+          content: "Your account has been created!",
           buttonText: "OK",
           status: "success",
           onClose: () {
@@ -63,7 +63,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         showModalAlert(
           // ignore: use_build_context_synchronously
           context: context,
-          title: "Registrasi Gagal",
+          title: "Registration Failed",
           content: authProvider.message!,
           buttonText: "OK",
           status: "failed",
@@ -79,109 +79,116 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.brand['background'],
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
-          child: Card(
-            elevation: 8,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
-            ),
-            color: AppColors.brand['light'],
-            child: Padding(
-              padding: const EdgeInsets.all(28.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 32),
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: AppColors.brand['light'],
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
                       Icons.restaurant_menu,
-                      size: 64,
+                      size: 48,
                       color: AppColors.brand['default'],
                     ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'Daftar Akun',
-                      style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.brand['dark'],
-                      ),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Create New Account',
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.brand['dark'],
                     ),
-                    const SizedBox(height: 24),
-                    InputTextShared(
-                      controller: _formManager.nameController,
-                      label: 'Nama Lengkap',
-                      icon: Icons.person,
-                      validator:
-                          (v) =>
-                              v == null || v.isEmpty
-                                  ? 'Nama wajib diisi'
-                                  : null,
+                  ),
+                  const SizedBox(height: 24),
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        InputTextShared(
+                          controller: _formManager.nameController,
+                          label: 'Full Name',
+                          icon: Icons.person,
+                          validator:
+                              (v) =>
+                                  v == null || v.isEmpty
+                                      ? 'Name is required'
+                                      : null,
+                        ),
+                        const SizedBox(height: 16),
+                        InputTextShared(
+                          controller: _formManager.emailController,
+                          label: 'Email',
+                          icon: Icons.email,
+                          keyboardType: TextInputType.emailAddress,
+                          validator:
+                              (v) =>
+                                  v == null || !v.contains('@')
+                                      ? 'Invalid email'
+                                      : null,
+                        ),
+                        const SizedBox(height: 16),
+                        InputTextShared(
+                          controller: _formManager.passwordController,
+                          label: 'Password',
+                          icon: Icons.lock,
+                          action: true,
+                          validator: (v) {
+                            if (v == null || v.isEmpty) {
+                              return 'Password is required';
+                            }
+                            if (v.length < 8) return 'Minimum 8 characters';
+                            if (!RegExp(r'[A-Z]').hasMatch(v)) {
+                              return 'Must contain uppercase letter';
+                            }
+                            if (!RegExp(r'[a-z]').hasMatch(v)) {
+                              return 'Must contain lowercase letter';
+                            }
+                            if (!RegExp(r'[0-9]').hasMatch(v)) {
+                              return 'Must contain number';
+                            }
+                            if (!RegExp(
+                              r"[!@#\\$&*~%^()\-_+=\[\]{};:\\\\,.<>?/\\|']",
+                            ).hasMatch(v)) {
+                              return 'Must contain special character';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 24),
+                        ButtonShared(
+                          width: double.infinity,
+                          onPressed: _isLoading ? null : _submit,
+                          text: 'Register Now',
+                          isLoading: _isLoading,
+                        ),
+                        const SizedBox(height: 16),
+                        GestureDetector(
+                          onTap: () => Navigator.pushNamed(context, '/login'),
+                          child: Text(
+                            'Already have an account? Login',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: AppColors.brand['accent'],
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 16),
-                    InputTextShared(
-                      controller: _formManager.emailController,
-                      label: 'Email',
-                      icon: Icons.email,
-                      keyboardType: TextInputType.emailAddress,
-                      validator:
-                          (v) =>
-                              v == null || !v.contains('@')
-                                  ? 'Email tidak valid'
-                                  : null,
-                    ),
-                    const SizedBox(height: 16),
-                    InputTextShared(
-                      controller: _formManager.passwordController,
-                      label: 'Password',
-                      icon: Icons.lock,
-                      action: true,
-                      validator: (v) {
-                        if (v == null || v.isEmpty) {
-                          return 'Password wajib diisi';
-                        }
-                        if (v.length < 8) {
-                          return 'Minimal 8 karakter';
-                        }
-                        if (!RegExp(r'[A-Z]').hasMatch(v)) {
-                          return 'Harus ada huruf besar';
-                        }
-                        if (!RegExp(r'[a-z]').hasMatch(v)) {
-                          return 'Harus ada huruf kecil';
-                        }
-                        if (!RegExp(r'[0-9]').hasMatch(v)) {
-                          return 'Harus ada angka';
-                        }
-                        if (!RegExp(
-                          r"[!@#\$&*~%^()\-_+=\[\]{};:\\"
-                          ",.<>?/\\|']",
-                        ).hasMatch(v)) {
-                          return 'Harus ada karakter spesial';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 28),
-                    ButtonShared(
-                      width: double.infinity,
-                      onPressed: _isLoading ? null : _submit,
-                      text: 'Daftar',
-                      isLoading: _isLoading,
-                    ),
-                    const SizedBox(height: 12),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/login');
-                      },
-                      child: Text(
-                        'Sudah punya akun? Masuk',
-                        style: TextStyle(color: AppColors.brand['accent']),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
