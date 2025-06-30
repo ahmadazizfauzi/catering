@@ -23,7 +23,7 @@ Currently, admin accounts are provided directly by the developer, as there is no
 - **Email:** `admin@gmail.com`
 - **Password:** `@PASSword0`
 
-**Download and try E-Catering here**
+## Download and try E-Catering here
 https://drive.google.com/file/d/1MvJAjGn20m041KYlBs8GYsaLEEO17C3U/view?usp=sharing  
 
 ## 🛠️ Tech Stack
