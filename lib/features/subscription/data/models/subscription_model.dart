@@ -12,7 +12,7 @@ class SubscriptionModel {
   final List<String> deliveryDays;
   final double totalPrice;
   final String status;
-  final DateTime? createdAt; 
+  final DateTime? createdAt;
 
   SubscriptionModel({
     this.id,
@@ -28,7 +28,7 @@ class SubscriptionModel {
     this.createdAt,
   });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap({bool isNew = false}) {
     return {
       'userId': userId,
       'name': name,
@@ -39,7 +39,10 @@ class SubscriptionModel {
       'deliveryDays': deliveryDays,
       'totalPrice': totalPrice,
       'status': status,
-      'createdAt': createdAt, // Biarkan Firestore handle jika null
+      'createdAt':
+          isNew
+              ? FieldValue.serverTimestamp()
+              : createdAt, // gunakan timestamp server jika data baru
     };
   }
 

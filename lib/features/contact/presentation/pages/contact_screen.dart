@@ -54,7 +54,7 @@ class ContactScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 18),
                   Text(
-                    'Bougas Catering',
+                    'E-Catering',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
@@ -77,7 +77,7 @@ class ContactScreen extends StatelessWidget {
                       Icon(Icons.email, color: AppColors.brand['accent']),
                       const SizedBox(width: 8),
                       Text(
-                        'info@bougascatering.com',
+                        'info@ecatering.com',
                         style: TextStyle(
                           fontSize: 16,
                           color: AppColors.brand['text'],

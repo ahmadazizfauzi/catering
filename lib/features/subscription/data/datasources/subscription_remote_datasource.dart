@@ -8,7 +8,10 @@ class SubscriptionRemoteDatasource {
     SubscriptionModel subscription,
     String userId,
   ) async {
-    await _collection.add({...subscription.toMap(), 'userId': userId});
+    await _collection.add({
+      ...subscription.toMap(isNew: true),
+      'userId': userId,
+    });
   }
 
   Future<List<SubscriptionModel>> getSubscriptions({String? userId}) async {

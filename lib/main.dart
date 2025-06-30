@@ -135,7 +135,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Bougas App',
+      title: 'E-Catering',
       theme: ThemeData(
         fontFamily: 'Poppins',
         scaffoldBackgroundColor: AppColors.white['default'],
