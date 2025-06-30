@@ -6,14 +6,14 @@ Catering App is a Flutter-based food subscription application that makes it easy
 
 ### 1. Consumer
 - **Register & Login:** Consumers can create an account and log in.
-- **Choose Catering Plan:** Consumers can select daily, weekly, or monthly catering packages.
-- **Customize Order:** Consumers can choose meal types, delivery days, and specify allergies.
-- **Order History & Status:** Consumers can view their subscription status and order history.
+- **Choose Catering Plan:** Consumers can select daily catering packages.
+- **Customize Order:** Consumers can choose meal types, delivery days, and allergies.
+- **Order & Status:** Consumers can view their subscription status and change the status.
 
 ### 2. Admin
 - **Admin Dashboard:** Admins can view statistics and customer growth.
 - **Manage Orders:** Admins can view, filter, and update customer orders by date or date range.
-- **Data Management:** Admins can monitor customer data, packages, and payment status.
+- **Data Management:** Admins can monitor customer data.
 
 ## 🔑 Admin Access
 Currently, admin accounts are provided directly by the developer, as there is no registration feature for admin users. All new registrations will automatically be assigned the consumer role. If needed, admin registration functionality can be added in the future.
